@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Color } from './components/Utils/constants';
 import ExerciseList from './components/Screens/ExerciseList';
 import Home from './components/Screens/Home';
+import Friends from './components/Screens/Friends';
 import Profile from './components/Screens/Profile';
 
 const Tab = createMaterialBottomTabNavigator();
@@ -36,6 +37,15 @@ export default function App() {
           options={{
             tabBarIcon: ({ color, size }) => (
               <Icon name='home' size={size} color={color} />
+            ),
+          }}
+        />
+        <Tab.Screen 
+          name="Friends" 
+          component={Friends} 
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <Icon name='users' size={size} color={color} />
             ),
           }}
         />

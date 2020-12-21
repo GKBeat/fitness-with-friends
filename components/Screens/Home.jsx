@@ -3,7 +3,7 @@ import { StyleSheet, Text, SafeAreaView } from 'react-native';
 
 import { Color } from '../Utils/constants';
 
-export default function Profil() {
+export default function Home() {
     return (
         <SafeAreaView style={styles.container}>
             <Text style={styles.textColor}>TODO: Show Home</Text>
