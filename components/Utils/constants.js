@@ -14,7 +14,7 @@ const ColorThemeBlackRoast = {
     TAB_BAR_INACTIVE_COLOR: '#eee5e9'
 };
 
-const Color = 1 ? ColorThemeBlackRoast : ColorThemeBlueSunrise;
+const Color = 0 ? ColorThemeBlackRoast : ColorThemeBlueSunrise;
 
 export {
     Color

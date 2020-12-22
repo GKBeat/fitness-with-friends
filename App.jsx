@@ -1,9 +1,9 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import {NavigationContainer} from '@react-navigation/native';
+import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-import { Color } from './components/Utils/constants';
+import {Color} from './components/Utils/constants';
 import ExerciseList from './components/Screens/ExerciseList';
 import Home from './components/Screens/Home';
 import Friends from './components/Screens/Friends';
@@ -20,44 +20,33 @@ export default function App() {
         shifting={true}
         activeColor={Color.TAB_BAR_ACTIVE_COLOR}
         inactiveColor={Color.TAB_BAR_INACTIVE_COLOR}
-        barStyle={{ backgroundColor: Color.TAB_BAR_BACKGROUND_COLOR }}
-      >
-        <Tab.Screen 
-          name="Exercise List" 
-          component={ExerciseList} 
+        barStyle={{
+        backgroundColor: Color.TAB_BAR_BACKGROUND_COLOR
+      }}>
+        <Tab.Screen
+          name="Exercise List"
+          component={ExerciseList}
           options={{
-            tabBarIcon: ({ color, size }) => (
-              <Icon name='dumbbell' size={size} color={color} />
-            ),
-          }}
-        />
-        <Tab.Screen 
-          name="Home" 
+          tabBarIcon: ({color, size}) => (<Icon name='dumbbell' size={size} color={color}/>)
+        }}/>
+        <Tab.Screen
+          name="Home"
           component={Home}
           options={{
-            tabBarIcon: ({ color, size }) => (
-              <Icon name='home' size={size} color={color} />
-            ),
-          }}
-        />
-        <Tab.Screen 
-          name="Friends" 
-          component={Friends} 
+          tabBarIcon: ({color, size}) => (<Icon name='home' size={size} color={color}/>)
+        }}/>
+        <Tab.Screen
+          name="Friends"
+          component={Friends}
           options={{
-            tabBarIcon: ({ color, size }) => (
-              <Icon name='users' size={size} color={color} />
-            ),
-          }}
-        />
-        <Tab.Screen 
-          name="Profile" 
-          component={Profile} 
+          tabBarIcon: ({color, size}) => (<Icon name='users' size={size} color={color}/>)
+        }}/>
+        <Tab.Screen
+          name="Profile"
+          component={Profile}
           options={{
-            tabBarIcon: ({ color, size }) => (
-              <Icon name='user-alt' size={size} color={color} />
-            ),
-          }}
-        />
+          tabBarIcon: ({color, size}) => (<Icon name='user-alt' size={size} color={color}/>)
+        }}/>
       </Tab.Navigator>
     </NavigationContainer>
   );
