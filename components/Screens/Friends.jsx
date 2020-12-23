@@ -19,7 +19,6 @@ export default function Friends() {
       }
     }).then( response => {
       if(response.data.status){
-        console.log(response.data);
         setUsers([...response.data.users]);
       }
     }).catch( err => {

@@ -36,7 +36,7 @@ export default function ExersiceModal(props) {
       }
     )
     .then(function (response) {
-      props.setCategories(categories.map((category) => {
+      props.setCategories(props.categories.map((category) => {
         if(category.name === response.data.exercise.category){
           category.exercises.push(response.data.exercise);
         }
@@ -84,35 +84,41 @@ export default function ExersiceModal(props) {
             style={styles.input}
             onChangeText={text => setAmountBeginner(text)}
             value={amountBeginner.toString()}
-            placeholder={'Anzahl der Wiederholungen für nicht so fortgeschrittene'}
+            placeholder={'Anzahl der Wiederholungen Level 0'}
           />
           <TextInput
             style={styles.input}
             onChangeText={text => setAmountExpert(text)}
             value={amountExpert.toString()}
-            placeholder={'Anzahl der Wiederholungen für fortgeschrittene'}
+            placeholder={'Anzahl der Wiederholungen Level 1'}
           />
         </View>
-        <View>
-          <TouchableHighlight
-            style={{backgroundColor: Color.TAB_BAR_ACTIVE_COLOR}}
+        <View style={styles.buttonContainer}>
+          <Button
+            marginY={0}
+            size={40}
+            color={Color.TAB_BAR_BACKGROUND_COLOR}
             onPress={() => {
               addCategory();
               props.setShowModal(false);
               clearInput();
             }}
-          >
-            <Text>SendData</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            style={{backgroundColor: Color.TAB_BAR_INACTIVE_COLOR}}
+            text={'SendData'}
+            textColor={Color.TAB_BAR_INACTIVE_COLOR}
+            isRound={false}
+          />
+          <Button
+            marginY={0}
+            size={40}
+            color={Color.TAB_BAR_BACKGROUND_COLOR}
             onPress={() => {
               props.setShowModal(false);
               clearInput();
             }}
-          >
-            <Text>CloseModal</Text>
-          </TouchableHighlight>
+            text={'CloseModal'}
+            textColor={Color.TAB_BAR_INACTIVE_COLOR}
+            isRound={false}
+          />
         </View>
       </View>
     </Modal>
@@ -139,5 +145,8 @@ const styles = StyleSheet.create({
     borderColor: Color.FONT_COLOR, 
     borderWidth: 1, 
     padding: 5 
+  },
+  buttonContainer: {
+    flexDirection: 'row'
   }
 });

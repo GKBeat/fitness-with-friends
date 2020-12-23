@@ -30,6 +30,7 @@ export default function ExerciseList() {
         showModal={showModal}
         setShowModal={(isShow) => setShowModal(isShow)}
         category={category}
+        categories={categories}
         setCategories={(categories) => setCategories([...categories])}
       />
       <FlatList

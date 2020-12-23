@@ -14,10 +14,10 @@ export default function Home() {
         _id: '5fe0d007f9d7d32652cefb60'
       }
     }).then(response => {
-        console.log(response.data);
+        console.log(response.data, 'data');
         setLatestWorkouts(response.data.listOfFriendsWorkout);
     }).catch(err => {
-        console.log(err);
+        console.log(err, 'err');
     });
   }, []);
 
