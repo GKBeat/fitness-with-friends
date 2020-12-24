@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {StyleSheet, Text, View, Modal, TextInput, Dimensions} from 'react-native';
 import axios from 'axios';
 
-import {Color} from './Utils/constants';
+import {Color, LoggedInUserID} from './Utils/constants';
 import Button from './Utils/Button';
 const {width} = Dimensions.get("window");
 
@@ -17,7 +17,7 @@ export default function ExerciseModal(props) {
       'https://fit-in-time-server.herokuapp.com/exercise/create/',
       {
         user: {
-          _id: '5fe37449be8f6e001786aaef',
+          _id: LoggedInUserID,
           isAdmin: true
         },
         exercise: {

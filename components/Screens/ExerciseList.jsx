@@ -69,7 +69,7 @@ export default function ExerciseList() {
           </View>
         )
       }}
-        keyExtractor={category => category.name}
+        keyExtractor={category => category.name.toString()}
       />
     </SafeAreaView>
   );

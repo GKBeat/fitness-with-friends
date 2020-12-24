@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import {Color} from './components/Utils/constants';
 import ExerciseList from './components/Screens/ExerciseList';
 import Home from './components/Screens/Home';
-import Friends from './components/Screens/Friends';
+import Friends from './components/Screens/Friends/Friends';
 import Profile from './components/Screens/Profile';
 
 const Tab = createMaterialBottomTabNavigator();

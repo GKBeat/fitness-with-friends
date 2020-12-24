@@ -3,19 +3,29 @@ import {StyleSheet, Text, SafeAreaView, View, FlatList} from 'react-native';
 import axios from 'axios';
 import {StatusBar} from 'expo-status-bar';
 
-import {Color} from '../Utils/constants';
+import {Color, LoggedInUserID} from '../Utils/constants';
 
 export default function Home() {
-  const [latestWorkouts, setLatestWorkouts] = useState([]);
+  const [latestWorkout, setLatestWorkout] = useState({});
+  const [latestFriendsWorkouts, setLatestFriendsWorkouts] = useState([]);
 
   useEffect(() => {
     axios.post('https://fit-in-time-server.herokuapp.com/user/friendsprogress/', {
       user: {
-        _id: '5fe37449be8f6e001786aaef'
+        _id: LoggedInUserID
       }
     }).then(response => {
-        console.log(response.data, 'data');
-        setLatestWorkouts(response.data.listOfFriendsWorkout);
+        setLatestFriendsWorkouts([...response.data.listOfFriendsWorkout]);
+    }).catch(err => {
+        console.log(err, 'err');
+    });
+
+    axios.post('https://fit-in-time-server.herokuapp.com/workout/', {
+      user: {
+        _id: '5fe4dc661c914a00172146f6'
+      }
+    }).then(response => {
+        setLatestWorkout(response.data.latestWorkout);
     }).catch(err => {
         console.log(err, 'err');
     });
@@ -25,15 +35,28 @@ export default function Home() {
     <SafeAreaView style={styles.container}>
       <StatusBar hidden={true} />
       <FlatList
-        data={latestWorkouts}
+        data={latestWorkout.exercises}
         renderItem={({item}) => {
-        return (
-          <View key={item._id}>
-            <Text>{item}</Text>
-          </View>
-        )
-      }}
-        keyExtractor={workout => workout._id}
+          return (
+            <View>
+              <Text>exercise: {item.exercise}</Text>
+              <Text>category: {item.category}</Text>
+            </View>
+          )
+        }}
+        keyExtractor={workout => workout._id.toString()}
+      />
+      <FlatList
+        data={latestFriendsWorkouts}
+        renderItem={({item}) => {
+          return (
+            <View>
+              <Text>Friend: {item.username}</Text>
+              <Text>Progress: {item.progress}/{item.exercises.length}</Text>
+            </View>
+          )
+        }}
+        keyExtractor={workout => workout._id.toString()}
       />
     </SafeAreaView>
   );
