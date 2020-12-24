@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import {StyleSheet, Text, View, Modal, TouchableHighlight, TextInput, Dimensions} from 'react-native';
+import {StyleSheet, Text, View, Modal, TextInput, Dimensions} from 'react-native';
 import axios from 'axios';
 
 import {Color} from './Utils/constants';
 import Button from './Utils/Button';
 const {width} = Dimensions.get("window");
 
-export default function ExersiceModal(props) {
+export default function ExerciseModal(props) {
   const [exerciseName, setExerciseName] = useState('');
   const [exerciseDescription, setExerciseDescription] = useState('');
   const [amountBeginner, setAmountBeginner] = useState('');
@@ -17,7 +17,7 @@ export default function ExersiceModal(props) {
       'https://fit-in-time-server.herokuapp.com/exercise/create/',
       {
         user: {
-          _id: '5fe0d007f9d7d32652cefb60',
+          _id: '5fe37449be8f6e001786aaef',
           isAdmin: true
         },
         exercise: {

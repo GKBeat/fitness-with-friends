@@ -29,7 +29,7 @@ export default function Friends() {
   const addFriend = (friend) => {
     axios.put('https://fit-in-time-server.herokuapp.com/user/add', {
         user: {
-          _id: '5fe0d007f9d7d32652cefb60'
+          _id: '5fe37449be8f6e001786aaef'
         },
         friend: {
           _id: friend._id

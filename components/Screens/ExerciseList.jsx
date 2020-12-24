@@ -6,7 +6,7 @@ import {StatusBar} from 'expo-status-bar';
 
 import {Color} from '../Utils/constants';
 import Button from '../Utils/Button';
-import ExersiceModal from "../ExersiceModal";
+import ExerciseModal from "../ExerciseModal";
 
 export default function ExerciseList() {
   const [categories, setCategories] = useState([]);
@@ -26,7 +26,7 @@ export default function ExerciseList() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar hidden={true} />
-      <ExersiceModal
+      <ExerciseModal
         showModal={showModal}
         setShowModal={(isShow) => setShowModal(isShow)}
         category={category}
