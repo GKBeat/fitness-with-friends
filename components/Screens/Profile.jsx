@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {StyleSheet, Text, SafeAreaView, View} from 'react-native';
+import React, {useEffect, useState, useCallback} from "react";
+import {StyleSheet, Text, SafeAreaView, View, ScrollView, RefreshControl} from 'react-native';
 import {StatusBar} from 'expo-status-bar';
 import axios from 'axios';
 
@@ -7,26 +7,26 @@ import {Color, LoggedInUserID} from '../Utils/constants';
 
 export default function Profil() {
   const [user,setUser] = useState({});
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
-    axios
-      .post('https://fit-in-time-server.herokuapp.com/user/one', {
+    getUser();
+  }, []);
+
+  const getUser = (refresh) => {
+    axios.post('https://fit-in-time-server.herokuapp.com/user/one', {
       query: {
         _id: LoggedInUserID
       }
-    })
-      .then(response => {
-        if (response.data.status) {
-          console.log(response.data.user);
-          setUser({
-            ...response.data.user
-          });
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }, []);
+    }).then(response => {
+      if (response.data.status) {
+        console.log(response.data.user);
+        setUser({...response.data.user});
+      }
+    }).catch(err => {
+      console.log(err);
+    }).then(() => refresh && refresh());
+  }
 
   const motivationText = (current, highest) => {
     if (current === 0) {
@@ -44,18 +44,31 @@ export default function Profil() {
     }
   }
 
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    getUser(() => setRefreshing(false));
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar hidden={true}/>
-      <Text style={styles.username}>{user.username}</Text>
-      <View>
-        <Text style={styles.textColor}>Trainingslevel: {user.level}</Text>
-        <Text style={styles.textColor}>Höchste in folge Trainiertertage: {user.highestStreak}</Text>
-        <Text style={styles.textColor}>
-          Aktuelle in folge Trainiertertage: {user.workoutStreak}
-        </Text>
-      </View>
-      <Text style={styles.motivation}>{motivationText(user.workoutStreak, user.highestStreak)}</Text>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        <View>
+          <Text style={styles.username}>{user.username}</Text>
+          <View>
+            <Text style={styles.textColor}>Trainingslevel: {user.level}</Text>
+            <Text style={styles.textColor}>Höchste in folge Trainiertertage: {user.highestStreak}</Text>
+            <Text style={styles.textColor}>
+              Aktuelle in folge Trainiertertage: {user.workoutStreak}
+            </Text>
+          </View>
+          <Text style={styles.motivation}>{motivationText(user.workoutStreak, user.highestStreak)}</Text>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
