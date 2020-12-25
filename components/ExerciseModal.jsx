@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import {StyleSheet, Text, View, Modal, TextInput, Dimensions} from 'react-native';
+import {StyleSheet, Text, View, TextInput, Dimensions} from 'react-native';
+import Modal from 'react-native-modal';
 import axios from 'axios';
 
 import {Color, LoggedInUserID} from './Utils/constants';
@@ -11,6 +12,11 @@ export default function ExerciseModal(props) {
   const [exerciseDescription, setExerciseDescription] = useState('');
   const [amountBeginner, setAmountBeginner] = useState('');
   const [amountExpert, setAmountExpert] = useState('');
+
+  const closeModal = () => {
+    props.setShowModal(false);
+    clearInput();
+  }
 
   const addCategory = () => {
     axios.post(
@@ -55,19 +61,20 @@ export default function ExerciseModal(props) {
     setAmountExpert('');
   }
 
-  // TODO: maybe use https://www.npmjs.com/package/react-native-modal (looks better)
   return (
     <Modal
-      animationType="slide"
-      transparent={false}
-      visible={props.showModal}
+      style={{marginVertical: 175}}
+      isVisible={props.showModal}
+      onBackdropPress={closeModal}
+      onSwipeComplete={closeModal}
+      swipeDirection="down"
+      hideModalContentWhileAnimating={true}
     >
-    {/*TODO: Fix styling of modal*/}
-      <View style={styles.conatiner}>
+      <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerText}>{props.category}</Text>
         </View>
-        <View>
+        <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
             onChangeText={text => setExerciseName(text)}
@@ -94,28 +101,26 @@ export default function ExerciseModal(props) {
           />
         </View>
         <View style={styles.buttonContainer}>
-          <Button
+        <Button
             marginY={0}
-            size={40}
-            color={Color.TAB_BAR_BACKGROUND_COLOR}
-            onPress={() => {
-              addCategory();
-              props.setShowModal(false);
-              clearInput();
-            }}
-            text={'SendData'}
-            textColor={Color.TAB_BAR_INACTIVE_COLOR}
+            height={40}
+            width={100}
+            color={Color.TAB_BAR_ACTIVE_COLOR}
+            onPress={() => closeModal()}
+            text={'Cancel'}
+            textColor={Color.FONT_COLOR}
             isRound={false}
           />
           <Button
             marginY={0}
-            size={40}
+            height={40}
+            width={100}
             color={Color.TAB_BAR_BACKGROUND_COLOR}
             onPress={() => {
-              props.setShowModal(false);
-              clearInput();
+              addCategory();
+              closeModal();
             }}
-            text={'CloseModal'}
+            text={'Save'}
             textColor={Color.TAB_BAR_INACTIVE_COLOR}
             isRound={false}
           />
@@ -139,14 +144,20 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 25,
   },
+  inputContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   input: { 
     width: width-90, 
     height: 40, 
     borderColor: Color.FONT_COLOR, 
     borderWidth: 1, 
-    padding: 5 
+    padding: 5,
+    marginBottom: 20
   },
   buttonContainer: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   }
 });

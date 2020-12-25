@@ -59,7 +59,8 @@ export default function ExerciseList() {
                 <Text style={styles.headerText}>{category.name}</Text>
                 <Button
                   marginY={10}
-                  size={25}
+                  height={25}
+                  width={25}
                   color={Color.TAB_BAR_BACKGROUND_COLOR}
                   onPress={() => {
                     setShowModal(true);

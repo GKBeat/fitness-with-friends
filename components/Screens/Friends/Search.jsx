@@ -13,6 +13,7 @@ export default function Search() {
   const [users, setUsers] = useState([]);
 
   const searchFriends = () => {
+    if(search.length < 3) return;
     axios.post('https://fit-in-time-server.herokuapp.com/user/search', {
       query: {
         username: search
@@ -65,7 +66,8 @@ export default function Search() {
         />  
         <Button
           marginY={0}
-          size={40}
+          height={40}
+          width={40}
           color={Color.TAB_BAR_BACKGROUND_COLOR}
           onPress={searchFriends}
           text={<Icon name='search' size={10} color={Color.TAB_BAR_INACTIVE_COLOR}/>}
@@ -83,7 +85,8 @@ export default function Search() {
               </View>
               <Button
                   marginY={10}
-                  size={25}
+                  height={25}
+                  width={25}
                   color={Color.TAB_BAR_BACKGROUND_COLOR}
                   onPress={() => addFriend(item, true)}
                   text={<Icon name='plus' size={10} color={Color.TAB_BAR_INACTIVE_COLOR}/>}

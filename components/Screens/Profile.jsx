@@ -20,7 +20,6 @@ export default function Profil() {
       }
     }).then(response => {
       if (response.data.status) {
-        console.log(response.data.user);
         setUser({...response.data.user});
       }
     }).catch(err => {
@@ -63,10 +62,10 @@ export default function Profil() {
             <Text style={styles.textColor}>Trainingslevel: {user.level}</Text>
             <Text style={styles.textColor}>Höchste in folge Trainiertertage: {user.highestStreak}</Text>
             <Text style={styles.textColor}>
-              Aktuelle in folge Trainiertertage: {user.workoutStreak}
+              Aktuelle in folge Trainiertertage: {user.currentStreak}
             </Text>
           </View>
-          <Text style={styles.motivation}>{motivationText(user.workoutStreak, user.highestStreak)}</Text>
+          <Text style={styles.motivation}>{motivationText(user.currentStreak, user.highestStreak)}</Text>
         </View>
       </ScrollView>
     </SafeAreaView>

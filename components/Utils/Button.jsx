@@ -6,8 +6,8 @@ export default function Button(props) {
     <TouchableOpacity
       style={{
           marginVertical: props.marginY,
-          height: props.size,
-          width: props.size,
+          height: props.height,
+          width: props.width,
           backgroundColor: props.color,
           alignItems: 'center',
           justifyContent: 'center',

@@ -2,10 +2,9 @@ import React, {useEffect, useState, useCallback} from "react";
 import {StyleSheet, Text, SafeAreaView, View, ScrollView, RefreshControl} from 'react-native';
 import axios from 'axios';
 import {StatusBar} from 'expo-status-bar';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import {Color, LoggedInUserID} from '../Utils/constants';
-import Button from '../Utils/Button';
+import Exercise from '../Exercise';
 
 export default function Home() {
   const [latestWorkout, setLatestWorkout] = useState(false);
@@ -17,7 +16,7 @@ export default function Home() {
   }, []);
 
   const getAllWorkouts = (refresh) => {
-    const requestOne =axios.post('https://fit-in-time-server.herokuapp.com/workout/', {
+    const requestOne = axios.post('https://fit-in-time-server.herokuapp.com/workout/', {
       user: {
         _id: LoggedInUserID
       }
@@ -39,6 +38,17 @@ export default function Home() {
     }).then(() => refresh && refresh())
   }
 
+  const checkAllAbsolved = () => {
+    if(latestWorkout){
+      let absolvedExercises = latestWorkout.exercises.filter((exercise) => {
+        return exercise.absolved;
+      })
+      if(absolvedExercises.length === latestWorkout.exercises.length){
+        return <Text>Du hast dein heutiges Training geschafft🔥🔥🔥</Text>
+      }
+    }
+  }
+
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     getAllWorkouts(() => setRefreshing(false));
@@ -57,24 +67,16 @@ export default function Home() {
           {
             latestWorkout && latestWorkout.exercises.map((exercise) => {
               return (
-                <View style={styles.checkExercise} key={exercise._id.toString()}>
-                  <View>
-                    <Text>exercise: {exercise.exercise}</Text>
-                    <Text>category: {exercise.category}</Text>
-                  </View>
-                  <Button
-                    marginY={10}
-                    size={25}
-                    color={Color.TAB_BAR_BACKGROUND_COLOR}
-                    onPress={() => {
-                      console.log('MarkAsChecked');
-                    }}
-                    text={<Icon name='check' size={10} color={Color.TAB_BAR_INACTIVE_COLOR}/>}
-                    isRound={true}
-                  />
-                </View>
+                <Exercise
+                  key={exercise._id}
+                  exercise={exercise}
+                  workoutId={latestWorkout._id}
+                />
               )
             })
+          }
+          {
+            checkAllAbsolved()
           }
       </View>
 
@@ -102,13 +104,6 @@ const styles = StyleSheet.create({
     backgroundColor: Color.BACKGROUND_COLOR,
     padding: 25
   },
-  checkExercise: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    borderBottomColor: Color.FONT_COLOR,
-    borderBottomWidth: 2,
-    marginBottom: 10
-  }, 
   friendWorkouts: {
     marginTop: 25
   },

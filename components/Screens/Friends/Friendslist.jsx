@@ -76,7 +76,8 @@ export default function Friendslist() {
                 </View>
                 <Button
                     marginY={10}
-                    size={25}
+                    height={25}
+                    width={25}
                     color={Color.TAB_BAR_BACKGROUND_COLOR}
                     onPress={() => addFriend(friend, false)}
                     text={<Icon name='minus' size={10} color={Color.TAB_BAR_INACTIVE_COLOR}/>}
