@@ -7,10 +7,12 @@ import {Color, LoggedInUserID} from '../Utils/constants';
 
 export default function Profil() {
   const [user,setUser] = useState({});
+  const [workoutHistory, setWorkoutHistory] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     getUser();
+    getWorkoutHistory();
   }, []);
 
   const getUser = (refresh) => {
@@ -25,6 +27,21 @@ export default function Profil() {
     }).catch(err => {
       console.log(err);
     }).then(() => refresh && refresh());
+  }
+
+  const getWorkoutHistory = () => {
+    axios.post('https://fit-in-time-server.herokuapp.com/workout/history', {
+      user: {
+        _id: LoggedInUserID
+      }
+    }).then(response => {
+      if (response.data.status) {
+        console.log(response.data.workouts);
+        setWorkoutHistory([...response.data.workouts])
+      }
+    }).catch(err => {
+      console.log(err);
+    });
   }
 
   const motivationText = (current, highest) => {
@@ -66,6 +83,26 @@ export default function Profil() {
             </Text>
           </View>
           <Text style={styles.motivation}>{motivationText(user.currentStreak, user.highestStreak)}</Text>
+          <View>
+            {
+              workoutHistory.map(history => {
+                return (
+                  <View style={styles.history} key={history._id}>
+                    <Text>
+                      Workout am {new Date(history.createdAt).getDate()}.{new Date(history.createdAt).getMonth()}
+                    </Text>
+                    <Text>
+                      Level: {history.level}
+                    </Text>
+                    <Text>
+                      Absolvierte Übungen: {history.progress} / {history.exercises.length}
+                    </Text>
+                  </View>
+                )
+              })
+            }
+            
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -93,5 +130,14 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     fontWeight: 'bold',
     opacity: 0.8
+  },
+  history: {
+    color: Color.FONT_COLOR,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginVertical: 10,
+    borderBottomColor: Color.FONT_COLOR,
+    borderBottomWidth: 2
   }
 });
