@@ -3,10 +3,11 @@ import {StyleSheet, Text, SafeAreaView, View, ScrollView, RefreshControl} from '
 import {StatusBar} from 'expo-status-bar';
 import axios from 'axios';
 
-import {Color, LoggedInUserID} from '../Utils/constants';
+import {Color, LoggedInUserID} from '../../Utils/constants';
+import WorkoutHistory from './WorkoutHistory'
 
 export default function Profil() {
-  const [user,setUser] = useState({});
+  const [user, setUser] = useState({});
   const [workoutHistory, setWorkoutHistory] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -36,7 +37,7 @@ export default function Profil() {
       }
     }).then(response => {
       if (response.data.status) {
-        console.log(response.data.workouts);
+        console.log(response.data.workouts[0]);
         setWorkoutHistory([...response.data.workouts])
       }
     }).catch(err => {
@@ -74,7 +75,7 @@ export default function Profil() {
         }
       >
         <View>
-          <Text style={styles.username}>{user.username}</Text>
+          <Text style={styles.headerText}>{user.username}</Text>
           <View>
             <Text style={styles.textColor}>Trainingslevel: {user.level}</Text>
             <Text style={styles.textColor}>Höchste in folge Trainiertertage: {user.highestStreak}</Text>
@@ -83,25 +84,18 @@ export default function Profil() {
             </Text>
           </View>
           <Text style={styles.motivation}>{motivationText(user.currentStreak, user.highestStreak)}</Text>
-          <View>
+          <View style={styles.historyContainer}>
+            <Text style={styles.headerText}>Deine Workout-Historie:</Text>
             {
               workoutHistory.map(history => {
                 return (
-                  <View style={styles.history} key={history._id}>
-                    <Text>
-                      Workout am {new Date(history.createdAt).getDate()}.{new Date(history.createdAt).getMonth()}
-                    </Text>
-                    <Text>
-                      Level: {history.level}
-                    </Text>
-                    <Text>
-                      Absolvierte Übungen: {history.progress} / {history.exercises.length}
-                    </Text>
-                  </View>
+                  <WorkoutHistory
+                    history={history}
+                    key={history._id}
+                  />
                 )
               })
             }
-            
           </View>
         </View>
       </ScrollView>
@@ -125,19 +119,13 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     opacity: 0.8
   },
-  username: {
+  historyContainer: {
+    marginTop: 15,
+  },
+  headerText: {
+    fontSize: 16,
     color: Color.FONT_COLOR,
     paddingBottom: 5,
-    fontWeight: 'bold',
-    opacity: 0.8
-  },
-  history: {
-    color: Color.FONT_COLOR,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginVertical: 10,
-    borderBottomColor: Color.FONT_COLOR,
-    borderBottomWidth: 2
+    fontWeight: 'bold'
   }
 });
