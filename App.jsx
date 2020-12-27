@@ -7,7 +7,7 @@ import {Color} from './components/Utils/constants';
 import ExerciseList from './components/Screens/ExerciseList';
 import Home from './components/Screens/Home';
 import Friends from './components/Screens/Friends/Friends';
-import Profile from './components/Screens/Profile';
+import Profile from './components/Screens/Profile/Profile';
 
 const Tab = createMaterialBottomTabNavigator();
 

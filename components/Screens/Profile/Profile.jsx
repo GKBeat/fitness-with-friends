@@ -3,14 +3,17 @@ import {StyleSheet, Text, SafeAreaView, View, ScrollView, RefreshControl} from '
 import {StatusBar} from 'expo-status-bar';
 import axios from 'axios';
 
-import {Color, LoggedInUserID} from '../Utils/constants';
+import {Color, LoggedInUserID} from '../../Utils/constants';
+import WorkoutHistory from './WorkoutHistory'
 
 export default function Profil() {
-  const [user,setUser] = useState({});
+  const [user, setUser] = useState({});
+  const [workoutHistory, setWorkoutHistory] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     getUser();
+    getWorkoutHistory();
   }, []);
 
   const getUser = (refresh) => {
@@ -25,6 +28,21 @@ export default function Profil() {
     }).catch(err => {
       console.log(err);
     }).then(() => refresh && refresh());
+  }
+
+  const getWorkoutHistory = () => {
+    axios.post('https://fit-in-time-server.herokuapp.com/workout/history', {
+      user: {
+        _id: LoggedInUserID
+      }
+    }).then(response => {
+      if (response.data.status) {
+        console.log(response.data.workouts[0]);
+        setWorkoutHistory([...response.data.workouts])
+      }
+    }).catch(err => {
+      console.log(err);
+    });
   }
 
   const motivationText = (current, highest) => {
@@ -57,7 +75,7 @@ export default function Profil() {
         }
       >
         <View>
-          <Text style={styles.username}>{user.username}</Text>
+          <Text style={styles.headerText}>{user.username}</Text>
           <View>
             <Text style={styles.textColor}>Trainingslevel: {user.level}</Text>
             <Text style={styles.textColor}>Höchste in folge Trainiertertage: {user.highestStreak}</Text>
@@ -66,6 +84,19 @@ export default function Profil() {
             </Text>
           </View>
           <Text style={styles.motivation}>{motivationText(user.currentStreak, user.highestStreak)}</Text>
+          <View style={styles.historyContainer}>
+            <Text style={styles.headerText}>Deine Workout-Historie:</Text>
+            {
+              workoutHistory.map(history => {
+                return (
+                  <WorkoutHistory
+                    history={history}
+                    key={history._id}
+                  />
+                )
+              })
+            }
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -88,10 +119,13 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     opacity: 0.8
   },
-  username: {
+  historyContainer: {
+    marginTop: 15,
+  },
+  headerText: {
+    fontSize: 16,
     color: Color.FONT_COLOR,
     paddingBottom: 5,
-    fontWeight: 'bold',
-    opacity: 0.8
+    fontWeight: 'bold'
   }
 });
