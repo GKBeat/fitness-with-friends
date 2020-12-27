@@ -4,7 +4,7 @@ import {createMaterialBottomTabNavigator} from '@react-navigation/material-botto
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import {Color} from './components/Utils/constants';
-import ExerciseList from './components/Screens/ExerciseList';
+import ExerciseList from './components/Screens/ExerciseList/ExerciseList';
 import Home from './components/Screens/Home';
 import Friends from './components/Screens/Friends/Friends';
 import Profile from './components/Screens/Profile/Profile';

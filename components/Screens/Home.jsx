@@ -1,6 +1,7 @@
 import React, {useEffect, useState, useCallback} from "react";
-import {StyleSheet, Text, SafeAreaView, View, ScrollView, RefreshControl} from 'react-native';
+import {StyleSheet, Text, SafeAreaView, View, ScrollView, RefreshControl, TouchableOpacity} from 'react-native';
 import axios from 'axios';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import {StatusBar} from 'expo-status-bar';
 
 import {Color, LoggedInUserID} from '../Utils/constants';
@@ -10,6 +11,8 @@ export default function Home() {
   const [latestWorkout, setLatestWorkout] = useState(false);
   const [latestFriendsWorkouts, setLatestFriendsWorkouts] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+  const [showWorkout, setShowWorkout] = useState(true);
+  const [showFriendsProgress, setShowFriendsProgress] = useState(true);
 
   useEffect(() => {
     getAllWorkouts();
@@ -63,9 +66,18 @@ export default function Home() {
         }
       >
       <View>
-        <Text style={styles.friendWorkoutsText}>Dein heutiges Workout:</Text>
+        <TouchableOpacity
+          onPress={() => setShowWorkout(!showWorkout)}
+          style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}
+        >
+          <Text style={styles.friendWorkoutsText}>Dein heutiges Workout</Text>
           {
-            latestWorkout && latestWorkout.exercises.map((exercise) => {
+            showWorkout ? <Icon name={'chevron-down'} size={24} color={Color.FONT_COLOR}/> : <Icon name={'chevron-right'} size={24} color={Color.FONT_COLOR}/>
+          }
+        </TouchableOpacity>
+        
+          {
+            latestWorkout && showWorkout && latestWorkout.exercises.map((exercise) => {
               return (
                 <Exercise
                   key={exercise._id}
@@ -81,13 +93,21 @@ export default function Home() {
       </View>
 
       <View style={styles.friendWorkouts}>
-        <Text style={styles.friendWorkoutsText}>Die Workouts deiner Freunde:</Text>
+        <TouchableOpacity
+          onPress={() => setShowFriendsProgress(!showFriendsProgress)}
+          style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}
+        >
+          <Text style={styles.friendWorkoutsText}>Der Workoutfortschritt deiner Freunde:</Text>
+          {
+            showFriendsProgress ? <Icon name={'chevron-down'} size={24} color={Color.FONT_COLOR}/> : <Icon name={'chevron-right'} size={24} color={Color.FONT_COLOR}/>
+          }
+        </TouchableOpacity>
         {
-          latestFriendsWorkouts.map((friendWorkout) => {
+          showFriendsProgress && latestFriendsWorkouts.map((friendWorkout) => {
             return (
               <View key={friendWorkout._id.toString()}>
-                <Text>Friend: {friendWorkout.username}</Text>
-                <Text>Progress: {friendWorkout.progress}/{friendWorkout.exercises.length}</Text>
+                <Text>Name: {friendWorkout.username}</Text>
+                <Text>Fortschritt: {friendWorkout.progress}/{friendWorkout.exercises.length}</Text>
               </View>
             )
           })
@@ -108,6 +128,8 @@ const styles = StyleSheet.create({
     marginTop: 25
   },
   friendWorkoutsText: {
-    marginBottom: 10
+    marginBottom: 10,
+    fontSize: 16,
+    fontWeight: 'bold'
   }
 });

@@ -4,9 +4,9 @@ import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {StatusBar} from 'expo-status-bar';
 
-import {Color} from '../Utils/constants';
-import Button from '../Utils/Button';
-import ExerciseModal from "../ExerciseModal";
+import {Color} from '../../Utils/constants';
+import Button from '../../Utils/Button';
+import ExerciseModal from "../../ExerciseModal";
 
 export default function ExerciseList() {
   const [categories, setCategories] = useState([]);

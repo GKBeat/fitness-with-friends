@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import moment from 'moment';
+import 'moment/locale/de';
 
 import {Color} from '../../Utils/constants';
 
@@ -10,6 +11,7 @@ export default function workoutHistory(props){
   const [showExercises, setShowExercises] = useState(false);
 
   useEffect(() => {
+    moment.locale('de');
     setHistory(props.history);
   }, [props.history])
 
@@ -21,9 +23,9 @@ export default function workoutHistory(props){
           style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}
         >
           <View>
-            <Text><Text style={styles.bold}>Beendet am:</Text> {moment(history.updatedAt).format('DD.MM.YY hh:mm')}</Text>
+            <Text><Text style={styles.bold}>Beendet am:</Text> {moment(history.updatedAt).format('DD.MM.YY HH:mm')}</Text>
             <Text><Text style={styles.bold}>Level:</Text> {history.level}</Text>
-            <Text><Text style={styles.bold}>Abgeschlossen:</Text> {history.progress} / {history.exercises.length}</Text>
+            <Text><Text style={styles.bold}>Übungen geschafft:</Text> {history.progress} / {history.exercises.length}</Text>
           </View>
           {
             showExercises ? <Icon name={'chevron-down'} size={24} color={Color.FONT_COLOR}/> : <Icon name={'chevron-right'} size={24} color={Color.FONT_COLOR}/>
