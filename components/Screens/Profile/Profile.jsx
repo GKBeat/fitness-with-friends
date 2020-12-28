@@ -84,21 +84,24 @@ export default function Profil() {
             showModal={showModal}
             setShowModal={(isShow) => setShowModal(isShow)}
           />
-          <Button
-            marginY={10}
-            height={25}
-            width={25}
-            color={Color.TAB_BAR_BACKGROUND_COLOR}
-            onPress={() => {
-              setShowModal(true);
-            }}
-            text={<Icon name='user-edit' size={10} color={Color.TAB_BAR_INACTIVE_COLOR}/>}
-            isRound={true}
-          />
-
-          <Text style={styles.headerText}>{user.username}</Text>
+          <View style={styles.header}>
+            <Text style={styles.headerText}>{user.username}</Text>
+            <Button
+              marginY={10}
+              height={35}
+              width={35}
+              color={Color.TAB_BAR_BACKGROUND_COLOR}
+              onPress={() => {
+                setShowModal(true);
+              }}
+              text={<Icon name='user-edit' size={10} color={Color.TAB_BAR_INACTIVE_COLOR}/>}
+              isRound={true}
+            />
+          </View>
+          
           <View>
             <Text style={styles.textColor}>Trainingslevel: {user.level}</Text>
+            <Text style={styles.textColor}>Anzahl der Übungen: {user.amount}</Text>
             <Text style={styles.textColor}>Höchste in folge Trainiertertage: {user.highestStreak}</Text>
             <Text style={styles.textColor}>
               Aktuelle in folge Trainiertertage: {user.currentStreak}
@@ -125,6 +128,11 @@ export default function Profil() {
 }
 
 const styles = StyleSheet.create({
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   container: {
     flex: 1,
     backgroundColor: Color.BACKGROUND_COLOR,

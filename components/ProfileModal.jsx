@@ -25,8 +25,8 @@ export default function ProfileModal(props){
     if (amount !== 5) update['amount'] = amount;
     if(!update) return;
 
-    axios.post(
-      'https://fit-in-time-server.herokuapp.com/user/update',
+    axios.put(
+      'https://fit-in-time-server.herokuapp.com/user/update/',
       {
         user: {
           _id: LoggedInUserID
@@ -51,61 +51,76 @@ export default function ProfileModal(props){
       swipeDirection="down"
       hideModalContentWhileAnimating={true}
     >
-      <View style={styles.inputContainer}>
+      <View style={styles.container}>
+        <Text style={styles.headerText}> Update Profile </Text>
+        <Text style={styles.contentText}> Theme: </Text>
         <TextInput
           style={styles.input}
           onChangeText={text => setTheme(text)}
-          value={'Theme 0/1'}
-          placeholder={0}
-        />    
+          value={theme.toString()}
+        />
+
+        <Text style={styles.contentText}> Level: </Text>
         <TextInput
           style={styles.input}
           onChangeText={text => setLevel(text)}
-          value={'Level 0/2?'}
-          placeholder={0}
+          value={level.toString()}
         />
+
+        <Text style={styles.contentText}> Amount: </Text>
         <TextInput
           style={styles.input}
           onChangeText={text => setAmount(text)}
-          value={'Amount 1/10'}
-          placeholder={5}
+          value={amount.toString()}
         />
+        <View style={styles.buttonContainer}>
+          <Button
+            marginY={0}
+            height={40}
+            width={100}
+            color={Color.TAB_BAR_ACTIVE_COLOR}
+            onPress={closeModal}
+            text={'Cancel'}
+            textColor={Color.FONT_COLOR}
+            isRound={false}
+          />
+          <Button
+            marginY={0}
+            height={40}
+            width={100}
+            color={Color.TAB_BAR_BACKGROUND_COLOR}
+            onPress={() => {
+              updateUser();
+              closeModal();
+            }}
+            text={'Save'}
+            textColor={Color.TAB_BAR_INACTIVE_COLOR}
+            isRound={false}
+          />
+        </View>
       </View>
 
-      <View style={styles.buttonContainer}>
-        <Button
-          marginY={0}
-          height={40}
-          width={100}
-          color={Color.TAB_BAR_ACTIVE_COLOR}
-          onPress={closeModal}
-          text={'Cancel'}
-          textColor={Color.FONT_COLOR}
-          isRound={false}
-        />
-        <Button
-          marginY={0}
-          height={40}
-          width={100}
-          color={Color.TAB_BAR_BACKGROUND_COLOR}
-          onPress={() => {
-            updateUser();
-            closeModal();
-          }}
-          text={'Save'}
-          textColor={Color.TAB_BAR_INACTIVE_COLOR}
-          isRound={false}
-        />
-        </View>
+      
     </Modal>
   )
 }
 
 const styles = StyleSheet.create({
-
-  inputContainer: {
+  headerText: {
+    fontSize: 16,
+    color: Color.FONT_COLOR,
+    paddingBottom: 5,
+    fontWeight: 'bold'
+  },
+  contentText: {
+    color: Color.FONT_COLOR
+  },
+  container: {
+    flex: 1,
+    backgroundColor: Color.BACKGROUND_COLOR,
+    paddingHorizontal: 25,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   input: { 
     width: width-90, 
