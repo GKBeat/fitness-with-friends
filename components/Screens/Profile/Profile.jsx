@@ -3,10 +3,10 @@ import {StyleSheet, Text, SafeAreaView, View, ScrollView, RefreshControl} from '
 import {StatusBar} from 'expo-status-bar';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import ProfileModal from '../../ProfileModal';
-import Button from '../../Utils/Button';
 
 import {Color, LoggedInUserID} from '../../Utils/constants';
+import Button from '../../Utils/Button';
+import ProfileModal from './ProfileModal';
 import WorkoutHistory from './WorkoutHistory'
 
 export default function Profil() {
@@ -41,7 +41,6 @@ export default function Profil() {
       }
     }).then(response => {
       if (response.data.status) {
-        console.log(response.data.workouts[0]);
         setWorkoutHistory([...response.data.workouts])
       }
     }).catch(err => {
@@ -71,7 +70,7 @@ export default function Profil() {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={{...styles.container, paddingHorizontal: 25, paddingTop: 15}}>
       <StatusBar hidden={true}/>
       <ScrollView
         refreshControl={
@@ -83,6 +82,9 @@ export default function Profil() {
           <ProfileModal
             showModal={showModal}
             setShowModal={(isShow) => setShowModal(isShow)}
+            theme={user.theme}
+            level={user.level}
+            amount={user.amount}
           />
           <View style={styles.header}>
             <Text style={styles.headerText}>{user.username}</Text>
@@ -132,11 +134,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+
   },
   container: {
     flex: 1,
     backgroundColor: Color.BACKGROUND_COLOR,
-    padding: 25
+    paddingTop: 0,
   },
   textColor: {
     color: Color.FONT_COLOR

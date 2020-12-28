@@ -122,7 +122,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Color.BACKGROUND_COLOR,
-    padding: 25
+    paddingHorizontal: 25,
+    paddingTop: 25
   },
   friendWorkouts: {
     marginTop: 25
