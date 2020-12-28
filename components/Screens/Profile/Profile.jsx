@@ -2,14 +2,18 @@ import React, {useEffect, useState, useCallback} from "react";
 import {StyleSheet, Text, SafeAreaView, View, ScrollView, RefreshControl} from 'react-native';
 import {StatusBar} from 'expo-status-bar';
 import axios from 'axios';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import {Color, LoggedInUserID} from '../../Utils/constants';
+import Button from '../../Utils/Button';
+import ProfileModal from './ProfileModal';
 import WorkoutHistory from './WorkoutHistory'
 
 export default function Profil() {
   const [user, setUser] = useState({});
   const [workoutHistory, setWorkoutHistory] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     getUser();
@@ -37,7 +41,6 @@ export default function Profil() {
       }
     }).then(response => {
       if (response.data.status) {
-        console.log(response.data.workouts[0]);
         setWorkoutHistory([...response.data.workouts])
       }
     }).catch(err => {
@@ -67,17 +70,40 @@ export default function Profil() {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={{...styles.container, paddingHorizontal: 25, paddingTop: 15}}>
       <StatusBar hidden={true}/>
       <ScrollView
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        <View>
-          <Text style={styles.headerText}>{user.username}</Text>
+        <View style={styles.container}>
+
+          <ProfileModal
+            showModal={showModal}
+            setShowModal={(isShow) => setShowModal(isShow)}
+            theme={user.theme}
+            level={user.level}
+            amount={user.amount}
+          />
+          <View style={styles.header}>
+            <Text style={styles.headerText}>{user.username}</Text>
+            <Button
+              marginY={10}
+              height={35}
+              width={35}
+              color={Color.TAB_BAR_BACKGROUND_COLOR}
+              onPress={() => {
+                setShowModal(true);
+              }}
+              text={<Icon name='user-edit' size={10} color={Color.TAB_BAR_INACTIVE_COLOR}/>}
+              isRound={true}
+            />
+          </View>
+          
           <View>
             <Text style={styles.textColor}>Trainingslevel: {user.level}</Text>
+            <Text style={styles.textColor}>Anzahl der Übungen: {user.amount}</Text>
             <Text style={styles.textColor}>Höchste in folge Trainiertertage: {user.highestStreak}</Text>
             <Text style={styles.textColor}>
               Aktuelle in folge Trainiertertage: {user.currentStreak}
@@ -104,10 +130,16 @@ export default function Profil() {
 }
 
 const styles = StyleSheet.create({
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+
+  },
   container: {
     flex: 1,
     backgroundColor: Color.BACKGROUND_COLOR,
-    padding: 25
+    paddingTop: 0,
   },
   textColor: {
     color: Color.FONT_COLOR

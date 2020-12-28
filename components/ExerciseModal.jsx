@@ -42,6 +42,7 @@ export default function ExerciseModal(props) {
       }
     )
     .then(function (response) {
+      // TODO: maybe only close modal if it was succesfull and show error msg if err
       props.setCategories(props.categories.map((category) => {
         if(category.name === response.data.exercise.category){
           category.exercises.push(response.data.exercise);
@@ -158,6 +159,6 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
   }
 });
