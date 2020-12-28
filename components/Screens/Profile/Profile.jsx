@@ -2,6 +2,9 @@ import React, {useEffect, useState, useCallback} from "react";
 import {StyleSheet, Text, SafeAreaView, View, ScrollView, RefreshControl} from 'react-native';
 import {StatusBar} from 'expo-status-bar';
 import axios from 'axios';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import ProfileModal from '../../ProfileModal';
+import Button from '../../Utils/Button';
 
 import {Color, LoggedInUserID} from '../../Utils/constants';
 import WorkoutHistory from './WorkoutHistory'
@@ -10,6 +13,7 @@ export default function Profil() {
   const [user, setUser] = useState({});
   const [workoutHistory, setWorkoutHistory] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     getUser();
@@ -74,7 +78,24 @@ export default function Profil() {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        <View>
+        <View style={styles.container}>
+
+          <ProfileModal
+            showModal={showModal}
+            setShowModal={(isShow) => setShowModal(isShow)}
+          />
+          <Button
+            marginY={10}
+            height={25}
+            width={25}
+            color={Color.TAB_BAR_BACKGROUND_COLOR}
+            onPress={() => {
+              setShowModal(true);
+            }}
+            text={<Icon name='user-edit' size={10} color={Color.TAB_BAR_INACTIVE_COLOR}/>}
+            isRound={true}
+          />
+
           <Text style={styles.headerText}>{user.username}</Text>
           <View>
             <Text style={styles.textColor}>Trainingslevel: {user.level}</Text>
