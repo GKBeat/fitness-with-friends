@@ -6,6 +6,11 @@ import {StatusBar} from 'expo-status-bar';
 
 import {Color, LoggedInUserID} from '../Utils/constants';
 import Exercise from '../Exercise';
+import Button from '../Utils/Button';
+
+import backend from '../Utils/backend';
+import {useDispatch, useSelector} from 'react-redux';
+import {log_in} from '../../redux/actions/actions';
 
 export default function Home() {
   const [latestWorkout, setLatestWorkout] = useState(false);
@@ -13,6 +18,10 @@ export default function Home() {
   const [refreshing, setRefreshing] = useState(false);
   const [showWorkout, setShowWorkout] = useState(true);
   const [showFriendsProgress, setShowFriendsProgress] = useState(true);
+
+  const user = useSelector(state => state.user);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getAllWorkouts();
@@ -52,6 +61,18 @@ export default function Home() {
     }
   }
 
+  const login = async () => {
+    let data = await backend.login('login/', {
+      user: {
+        username: 'DankMeme',
+        password: 'Test1234'
+      }
+    });
+    
+    dispatch(log_in(data.user));
+    
+  }
+
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     getAllWorkouts(() => setRefreshing(false));
@@ -65,6 +86,9 @@ export default function Home() {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
+        <Button onPress={login}
+          text={'LOGIN' + user.username}
+         />
       <View>
         <TouchableOpacity
           onPress={() => setShowWorkout(!showWorkout)}

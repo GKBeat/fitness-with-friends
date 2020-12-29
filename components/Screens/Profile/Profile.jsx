@@ -20,6 +20,8 @@ export default function Profil() {
     getWorkoutHistory();
   }, []);
 
+
+
   const getUser = (refresh) => {
     axios.post('https://fit-in-time-server.herokuapp.com/user/one', {
       query: {
@@ -100,7 +102,6 @@ export default function Profil() {
               isRound={true}
             />
           </View>
-          
           <View>
             <Text style={styles.textColor}>Trainingslevel: {user.level}</Text>
             <Text style={styles.textColor}>Anzahl der Übungen: {user.amount}</Text>
