@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import {StatusBar} from 'expo-status-bar';
 import axios from 'axios';
 
-import {Color, LoggedInUserID} from '../../Utils/constants';
+import {Color, LoggedInUserID, iconSizes} from '../../Utils/constants';
 import Button from '../../Utils/Button';
 
 export default function Friendslist() {
@@ -80,7 +80,7 @@ export default function Friendslist() {
                     width={25}
                     color={Color.TAB_BAR_BACKGROUND_COLOR}
                     onPress={() => addFriend(friend, false)}
-                    text={<Icon name='minus' size={10} color={Color.TAB_BAR_INACTIVE_COLOR}/>}
+                    text={<Icon name='minus' size={iconSizes.mini} color={Color.TAB_BAR_INACTIVE_COLOR}/>}
                     isRound={true}
                   />
               </View>

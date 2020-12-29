@@ -4,7 +4,7 @@ import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {StatusBar} from 'expo-status-bar';
 
-import {Color, LoggedInUserID} from '../Utils/constants';
+import {LoggedInUserID, fontSizes, iconSizes, Color} from '../Utils/constants';
 import Exercise from '../Exercise';
 import Button from '../Utils/Button';
 
@@ -96,7 +96,7 @@ export default function Home() {
         >
           <Text style={styles.friendWorkoutsText}>Dein heutiges Workout</Text>
           {
-            showWorkout ? <Icon name={'chevron-down'} size={24} color={Color.FONT_COLOR}/> : <Icon name={'chevron-right'} size={24} color={Color.FONT_COLOR}/>
+            showWorkout ? <Icon name={'chevron-down'} size={iconSizes.medium} color={Color.FONT_COLOR}/> : <Icon name={'chevron-right'} size={iconSizes.medium} color={Color.FONT_COLOR}/>
           }
         </TouchableOpacity>
         
@@ -123,7 +123,7 @@ export default function Home() {
         >
           <Text style={styles.friendWorkoutsText}>Der Workoutfortschritt deiner Freunde:</Text>
           {
-            showFriendsProgress ? <Icon name={'chevron-down'} size={24} color={Color.FONT_COLOR}/> : <Icon name={'chevron-right'} size={24} color={Color.FONT_COLOR}/>
+            showFriendsProgress ? <Icon name={'chevron-down'} size={iconSizes.medium} color={Color.FONT_COLOR}/> : <Icon name={'chevron-right'} size={iconSizes.medium} color={Color.FONT_COLOR}/>
           }
         </TouchableOpacity>
         {
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
   },
   friendWorkoutsText: {
     marginBottom: 10,
-    fontSize: 16,
+    fontSize: fontSizes.small,
     fontWeight: 'bold'
   }
 });

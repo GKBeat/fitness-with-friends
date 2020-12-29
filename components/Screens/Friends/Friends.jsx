@@ -2,7 +2,7 @@ import React from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-import {Color} from '../../Utils/constants';
+import {Color, iconSizes} from '../../Utils/constants';
 import Search from './Search';
 import Friendslist from './Friendslist';
 
@@ -26,13 +26,13 @@ export default function Friends() {
         name="Friendlist"
         component={Friendslist}
         options={{
-        tabBarIcon: ({color, size}) => (<Icon name='user-friends' size={size} color={color}/>)
+        tabBarIcon: ({color, size}) => (<Icon name='user-friends' size={iconSizes.mini} color={color}/>)
       }}/>
       <Tab.Screen
         name="Search"
         component={Search}
         options={{
-        tabBarIcon: ({color, size}) => (<Icon name='search' size={size} color={color}/>)
+        tabBarIcon: ({color, size}) => (<Icon name='search' size={iconSizes.mini} color={color}/>)
       }}/>
     </Tab.Navigator>
   );

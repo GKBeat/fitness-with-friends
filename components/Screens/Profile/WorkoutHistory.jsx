@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import moment from 'moment';
 import 'moment/locale/de';
 
-import {Color} from '../../Utils/constants';
+import {Color, iconSizes} from '../../Utils/constants';
 
 export default function workoutHistory(props){
   const [history, setHistory] = useState(props.history);
@@ -28,7 +28,7 @@ export default function workoutHistory(props){
             <Text><Text style={styles.bold}>Übungen geschafft:</Text> {history.progress} / {history.exercises.length}</Text>
           </View>
           {
-            showExercises ? <Icon name={'chevron-down'} size={24} color={Color.FONT_COLOR}/> : <Icon name={'chevron-right'} size={24} color={Color.FONT_COLOR}/>
+            showExercises ? <Icon name={'chevron-down'} size={iconSizes.medium} color={Color.FONT_COLOR}/> : <Icon name={'chevron-right'} size={iconSizes.medium} color={Color.FONT_COLOR}/>
           }
         </TouchableOpacity>
       </View>
@@ -41,7 +41,7 @@ export default function workoutHistory(props){
                 <Text><Text style={styles.bold}>Categorie:</Text> {exercise.category}</Text>
               </View>
               {
-                exercise.absolved ? <Icon name={'check-square'} size={24} color={Color.TAB_BAR_ACTIVE_COLOR}/> : <Icon name={'square'} size={24} color={Color.TAB_BAR_ACTIVE_COLOR}/>
+                exercise.absolved ? <Icon name={'check-square'} size={iconSizes.medium} color={Color.TAB_BAR_ACTIVE_COLOR}/> : <Icon name={'square'} size={iconSizes.medium} color={Color.TAB_BAR_ACTIVE_COLOR}/>
               }
             </View>
           )

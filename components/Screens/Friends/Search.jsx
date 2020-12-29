@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import {StatusBar} from 'expo-status-bar';
 import axios from 'axios';
 
-import {Color, LoggedInUserID} from '../../Utils/constants';
+import {Color, LoggedInUserID, iconSizes} from '../../Utils/constants';
 import Button from '../../Utils/Button';
 const {width} = Dimensions.get("window");
 
@@ -70,7 +70,7 @@ export default function Search() {
           width={40}
           color={Color.TAB_BAR_BACKGROUND_COLOR}
           onPress={searchFriends}
-          text={<Icon name='search' size={10} color={Color.TAB_BAR_INACTIVE_COLOR}/>}
+          text={<Icon name='search' size={iconSizes.mini} color={Color.TAB_BAR_INACTIVE_COLOR}/>}
           isRound={false}
         />
       </View>
@@ -89,7 +89,7 @@ export default function Search() {
                   width={25}
                   color={Color.TAB_BAR_BACKGROUND_COLOR}
                   onPress={() => addFriend(item, true)}
-                  text={<Icon name='plus' size={10} color={Color.TAB_BAR_INACTIVE_COLOR}/>}
+                  text={<Icon name='plus' size={iconSizes.mini} color={Color.TAB_BAR_INACTIVE_COLOR}/>}
                   isRound={true}
                 />
             </View>

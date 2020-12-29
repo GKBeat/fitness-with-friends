@@ -3,7 +3,7 @@ import {StyleSheet, Text, View, TouchableWithoutFeedback} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import axios from 'axios';
 
-import {Color} from './Utils/constants';
+import {Color, fontSizes} from './Utils/constants';
 import Button from './Utils/Button';
 
 export default function Exercise(props) {
@@ -54,7 +54,7 @@ export default function Exercise(props) {
           onPress={() => {
             setAbsolved(!absolved);
           }}
-          text={absolved ? <Icon name='check' size={10} color={Color.TAB_BAR_INACTIVE_COLOR}/> : ''}
+          text={absolved ? <Icon name='check' size={fontSizes.mini} color={Color.TAB_BAR_INACTIVE_COLOR}/> : ''}
           isRound={false}
         />
       </View>

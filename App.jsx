@@ -7,7 +7,7 @@ import {createStore} from 'redux';
 import {Provider} from 'react-redux';
 import rootReducer from './redux/reducer';
 
-import {Color} from './components/Utils/constants';
+import {Color, iconSizes} from './components/Utils/constants';
 import ExerciseList from './components/Screens/ExerciseList/ExerciseList';
 import Home from './components/Screens/Home';
 import Friends from './components/Screens/Friends/Friends';
@@ -36,25 +36,25 @@ export default function App() {
             name="Exercise List"
             component={ExerciseList}
             options={{
-            tabBarIcon: ({color, size}) => (<Icon name='dumbbell' size={size} color={color}/>)
+            tabBarIcon: ({color}) => (<Icon name='dumbbell' size={iconSizes.mini} color={color}/>)
           }}/>
           <Tab.Screen
             name="Home"
             component={Home}
             options={{
-            tabBarIcon: ({color, size}) => (<Icon name='home' size={size} color={color}/>)
+            tabBarIcon: ({color}) => (<Icon name='home' size={iconSizes.mini} color={color}/>)
           }}/>
           <Tab.Screen
             name="Friends"
             component={Friends}
             options={{
-            tabBarIcon: ({color, size}) => (<Icon name='users' size={size} color={color}/>)
+            tabBarIcon: ({color}) => (<Icon name='users' size={iconSizes.mini} color={color}/>)
           }}/>
           <Tab.Screen
             name="Profile"
             component={Profile}
             options={{
-            tabBarIcon: ({color, size}) => (<Icon name='user-alt' size={size} color={color}/>)
+            tabBarIcon: ({color}) => (<Icon name='user-alt' size={iconSizes.mini} color={color}/>)
           }}/>
         </Tab.Navigator>
       </NavigationContainer>

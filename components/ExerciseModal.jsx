@@ -3,7 +3,7 @@ import {StyleSheet, Text, View, TextInput, Dimensions} from 'react-native';
 import Modal from 'react-native-modal';
 import axios from 'axios';
 
-import {Color, LoggedInUserID} from './Utils/constants';
+import {LoggedInUserID, fontSizes, Color} from './Utils/constants';
 import Button from './Utils/Button';
 const {width} = Dimensions.get("window");
 
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   headerText: {
-    fontSize: 25,
+    fontSize: fontSizes.large,
   },
   inputContainer: {
     justifyContent: 'center',

@@ -4,7 +4,7 @@ import {StatusBar} from 'expo-status-bar';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-import {Color, LoggedInUserID} from '../../Utils/constants';
+import {Color, LoggedInUserID, fontSizes, iconSizes} from '../../Utils/constants';
 import Button from '../../Utils/Button';
 import ProfileModal from './ProfileModal';
 import WorkoutHistory from './WorkoutHistory'
@@ -98,7 +98,7 @@ export default function Profil() {
               onPress={() => {
                 setShowModal(true);
               }}
-              text={<Icon name='user-edit' size={10} color={Color.TAB_BAR_INACTIVE_COLOR}/>}
+              text={<Icon name='user-edit' size={iconSizes.mini} color={Color.TAB_BAR_INACTIVE_COLOR}/>}
               isRound={true}
             />
           </View>
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   headerText: {
-    fontSize: 16,
+    fontSize: fontSizes.small,
     color: Color.FONT_COLOR,
     paddingBottom: 5,
     fontWeight: 'bold'

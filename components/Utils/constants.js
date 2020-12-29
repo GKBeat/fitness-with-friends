@@ -1,3 +1,16 @@
+const fontSizes = {
+    small: 16,
+    medium: 18,
+    large: 20
+}
+
+const iconSizes = {
+    mini: 12,
+    small: 20,
+    medium: 24,
+    large: 28,
+}
+
 const ColorThemeBlackRoast = {
     BACKGROUND_COLOR: '#eee5e9',
     FONT_COLOR: '#000000',
@@ -21,5 +34,8 @@ let Color = themeArray[1];
 
 export {
     Color,
-    LoggedInUserID
+    LoggedInUserID,
+    themeArray,
+    fontSizes,
+    iconSizes
 }

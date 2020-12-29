@@ -4,7 +4,7 @@ import Modal from 'react-native-modal';
 import axios from 'axios';
 import {Picker} from '@react-native-picker/picker';
 
-import {Color, LoggedInUserID} from '../../Utils/constants';
+import {Color, LoggedInUserID, fontSizes} from '../../Utils/constants';
 import Button from '../../Utils/Button';
 
 export default function ProfileModal(props){
@@ -125,7 +125,7 @@ export default function ProfileModal(props){
 
 const styles = StyleSheet.create({
   headerText: {
-    fontSize: 25,
+    fontSize: fontSizes.large,
     color: Color.FONT_COLOR,
     marginVertical: 10,
     alignSelf: 'center'

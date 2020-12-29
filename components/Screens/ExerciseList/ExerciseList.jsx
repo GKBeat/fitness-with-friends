@@ -4,7 +4,7 @@ import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {StatusBar} from 'expo-status-bar';
 
-import {Color} from '../../Utils/constants';
+import {Color, fontSizes, iconSizes} from '../../Utils/constants';
 import Button from '../../Utils/Button';
 import ExerciseModal from "../../ExerciseModal";
 
@@ -66,7 +66,7 @@ export default function ExerciseList() {
                     setShowModal(true);
                     setCategory(category.name);
                   }}
-                  text={<Icon name='plus' size={10} color={Color.TAB_BAR_INACTIVE_COLOR}/>}
+                  text={<Icon name='plus' size={iconSizes.mini} color={Color.TAB_BAR_INACTIVE_COLOR}/>}
                   isRound={true}
                 />
               </View>
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     color: Color.FONT_COLOR,
-    fontSize: 20
+    fontSize: fontSizes.large
   },
   contentText: {
     color: Color.FONT_COLOR
