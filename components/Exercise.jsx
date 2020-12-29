@@ -1,14 +1,18 @@
 import React, {useEffect, useState} from "react";
 import {StyleSheet, Text, View, TouchableWithoutFeedback} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import {useSelector} from 'react-redux';
 import axios from 'axios';
 
-import {Color, fontSizes} from './Utils/constants';
+import {themeArray, fontSizes} from './Utils/constants';
 import Button from './Utils/Button';
 
 export default function Exercise(props) {
   const [absolved, setAbsolved] = useState(props.exercise.absolved);
   const exercise = props.exercise;
+
+  const user = useSelector(state => state.user);
+  const Color = useState(themeArray[user.theme])[0];
 
   useEffect(() => {
     absolve();
@@ -30,6 +34,16 @@ export default function Exercise(props) {
       console.log(err);
     });
   }
+
+  const styles = StyleSheet.create({
+    checkExercise: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      borderBottomColor: Color.FONT_COLOR,
+      borderBottomWidth: 2,
+      marginBottom: 10
+    }, 
+  });
 
   return (
     <TouchableWithoutFeedback       
@@ -61,13 +75,3 @@ export default function Exercise(props) {
     </TouchableWithoutFeedback>
   );
 }
-
-const styles = StyleSheet.create({
-  checkExercise: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    borderBottomColor: Color.FONT_COLOR,
-    borderBottomWidth: 2,
-    marginBottom: 10
-  }, 
-});

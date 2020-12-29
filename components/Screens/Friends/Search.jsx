@@ -1,16 +1,20 @@
 import React, {useState} from "react";
 import {StyleSheet, Text, SafeAreaView, Dimensions, View, TextInput, FlatList} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import {useSelector} from 'react-redux';
 import {StatusBar} from 'expo-status-bar';
 import axios from 'axios';
 
-import {Color, LoggedInUserID, iconSizes} from '../../Utils/constants';
+import {themeArray, LoggedInUserID, iconSizes} from '../../Utils/constants';
 import Button from '../../Utils/Button';
 const {width} = Dimensions.get("window");
 
 export default function Search() {
   const [search, setSearch] = useState('');
   const [users, setUsers] = useState([]);
+
+  const user = useSelector(state => state.user);
+  const Color = useState(themeArray[user.theme])[0];
 
   const searchFriends = () => {
     if(search.length < 3) return;
@@ -53,6 +57,33 @@ export default function Search() {
         console.log(err);
     });
   }
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: Color.BACKGROUND_COLOR,
+      paddingHorizontal: 25,
+      paddingTop: 25  
+    },
+    textColor: {
+      color: Color.FONT_COLOR
+    },
+    search: {
+      flexDirection: 'row'
+    },
+    searchedFriends: {
+      paddingVertical: 10,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+    input: { 
+      width: width-90, 
+      height: 40, 
+      borderColor: Color.FONT_COLOR, 
+      borderWidth: 1, 
+      padding: 5 
+    }
+  });
 
   return (
     <SafeAreaView style={styles.container}>
@@ -101,29 +132,3 @@ export default function Search() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Color.BACKGROUND_COLOR,
-    paddingHorizontal: 25,
-    paddingTop: 25  
-  },
-  textColor: {
-    color: Color.FONT_COLOR
-  },
-  search: {
-    flexDirection: 'row'
-  },
-  searchedFriends: {
-    paddingVertical: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  input: { 
-    width: width-90, 
-    height: 40, 
-    borderColor: Color.FONT_COLOR, 
-    borderWidth: 1, 
-    padding: 5 
-  }
-});

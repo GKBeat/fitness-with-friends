@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import Modal from 'react-native-modal';
+import {useSelector} from 'react-redux';
 import axios from 'axios';
 import {Picker} from '@react-native-picker/picker';
 
-import {Color, LoggedInUserID, fontSizes} from '../../Utils/constants';
+import {themeArray, LoggedInUserID, fontSizes} from '../../Utils/constants';
 import Button from '../../Utils/Button';
 
 export default function ProfileModal(props){
   const [theme, setTheme] = useState(props.theme);
   const [level, setLevel] = useState(props.level);
   const [amount, setAmount] = useState(props.amount);
+
+  const user = useSelector(state => state.user);
+  const Color = useState(themeArray[user.theme])[0];
   
   const closeModal = () => {
     props.setShowModal(false);
@@ -41,6 +45,32 @@ export default function ProfileModal(props){
       console.log(error, 'err');
     });
   }
+
+  const styles = StyleSheet.create({
+    headerText: {
+      fontSize: fontSizes.large,
+      color: Color.FONT_COLOR,
+      marginVertical: 10,
+      alignSelf: 'center'
+    },
+    contentText: {
+      color: Color.FONT_COLOR
+    },
+    container: {
+      flex: 1,
+      backgroundColor: Color.BACKGROUND_COLOR,
+      paddingHorizontal: 25,
+    },
+    input: { 
+      height: 40, 
+      padding: 5,
+      marginBottom: 20
+    },
+    buttonContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+    }
+  });
 
   return (
     <Modal
@@ -122,29 +152,3 @@ export default function ProfileModal(props){
     </Modal>
   )
 }
-
-const styles = StyleSheet.create({
-  headerText: {
-    fontSize: fontSizes.large,
-    color: Color.FONT_COLOR,
-    marginVertical: 10,
-    alignSelf: 'center'
-  },
-  contentText: {
-    color: Color.FONT_COLOR
-  },
-  container: {
-    flex: 1,
-    backgroundColor: Color.BACKGROUND_COLOR,
-    paddingHorizontal: 25,
-  },
-  input: { 
-    height: 40, 
-    padding: 5,
-    marginBottom: 20
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-  }
-});

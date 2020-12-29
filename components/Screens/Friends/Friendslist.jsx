@@ -1,15 +1,19 @@
 import React, {useEffect, useState, useCallback} from "react";
 import {StyleSheet, Text, SafeAreaView, View, ScrollView, RefreshControl} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import {useSelector} from 'react-redux';
 import {StatusBar} from 'expo-status-bar';
 import axios from 'axios';
 
-import {Color, LoggedInUserID, iconSizes} from '../../Utils/constants';
+import {themeArray, LoggedInUserID, iconSizes} from '../../Utils/constants';
 import Button from '../../Utils/Button';
 
 export default function Friendslist() {
   const [friends, setFriends] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+
+  const user = useSelector(state => state.user);
+  const Color = useState(themeArray[user.theme])[0];
 
   useEffect(() =>{
     getFriends();
@@ -58,6 +62,23 @@ export default function Friendslist() {
     getFriends(() => setRefreshing(false));
   }, []);
 
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: Color.BACKGROUND_COLOR,
+      paddingHorizontal: 25,
+      paddingTop: 25  
+    },
+    textColor: {
+      color: Color.FONT_COLOR
+    },
+    searchedFriends: {
+      paddingVertical: 5,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    }
+  });
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar hidden={true} />
@@ -92,19 +113,3 @@ export default function Friendslist() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Color.BACKGROUND_COLOR,
-    paddingHorizontal: 25,
-    paddingTop: 25  
-  },
-  textColor: {
-    color: Color.FONT_COLOR
-  },
-  searchedFriends: {
-    paddingVertical: 5,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  }
-});

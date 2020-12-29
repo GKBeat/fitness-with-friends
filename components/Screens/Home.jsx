@@ -4,7 +4,7 @@ import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {StatusBar} from 'expo-status-bar';
 
-import {LoggedInUserID, fontSizes, iconSizes, Color} from '../Utils/constants';
+import {LoggedInUserID, fontSizes, iconSizes, themeArray} from '../Utils/constants';
 import Exercise from '../Exercise';
 import Button from '../Utils/Button';
 
@@ -20,6 +20,7 @@ export default function Home() {
   const [showFriendsProgress, setShowFriendsProgress] = useState(true);
 
   const user = useSelector(state => state.user);
+  const Color = useState(themeArray[user.theme])[0];
 
   const dispatch = useDispatch();
 
@@ -77,6 +78,23 @@ export default function Home() {
     setRefreshing(true);
     getAllWorkouts(() => setRefreshing(false));
   }, []);
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: Color.BACKGROUND_COLOR,
+      paddingHorizontal: 25,
+      paddingTop: 25
+    },
+    friendWorkouts: {
+      marginTop: 25
+    },
+    friendWorkoutsText: {
+      marginBottom: 10,
+      fontSize: fontSizes.small,
+      fontWeight: 'bold'
+    }
+  });
 
   return (
     <SafeAreaView style={styles.container}>
@@ -142,19 +160,3 @@ export default function Home() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Color.BACKGROUND_COLOR,
-    paddingHorizontal: 25,
-    paddingTop: 25
-  },
-  friendWorkouts: {
-    marginTop: 25
-  },
-  friendWorkoutsText: {
-    marginBottom: 10,
-    fontSize: fontSizes.small,
-    fontWeight: 'bold'
-  }
-});

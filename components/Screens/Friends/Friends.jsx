@@ -1,14 +1,17 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import {useSelector} from 'react-redux';
 
-import {Color, iconSizes} from '../../Utils/constants';
+import {themeArray, iconSizes} from '../../Utils/constants';
 import Search from './Search';
 import Friendslist from './Friendslist';
 
 const Tab = createMaterialTopTabNavigator();
 
 export default function Friends() {
+  const user = useSelector(state => state.user);
+  const Color = useState(themeArray[user.theme])[0];
   return (
     <Tab.Navigator
       initialRouteName="Friendlist"

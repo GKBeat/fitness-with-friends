@@ -1,19 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import {useSelector} from 'react-redux';
 import moment from 'moment';
 import 'moment/locale/de';
 
-import {Color, iconSizes} from '../../Utils/constants';
+import {themeArray, iconSizes} from '../../Utils/constants';
 
 export default function workoutHistory(props){
   const [history, setHistory] = useState(props.history);
   const [showExercises, setShowExercises] = useState(false);
 
+  const user = useSelector(state => state.user);
+  const Color = useState(themeArray[user.theme])[0];
+
   useEffect(() => {
     moment.locale('de');
     setHistory(props.history);
-  }, [props.history])
+  }, [props.history]);
+
+  const styles = StyleSheet.create({
+    history: {
+      marginVertical: 10,
+      borderBottomColor: Color.FONT_COLOR,
+      borderBottomWidth: 2,
+    },
+    historyItem: {
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginVertical: 10,
+      borderColor: Color.FONT_COLOR,
+      borderWidth: 1,
+      padding: 5,
+      flexDirection: 'row'
+    },
+    bold: {
+      fontWeight: 'bold'
+    }
+  });
 
   return (
     <View>
@@ -50,23 +74,3 @@ export default function workoutHistory(props){
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  history: {
-    marginVertical: 10,
-    borderBottomColor: Color.FONT_COLOR,
-    borderBottomWidth: 2,
-  },
-  historyItem: {
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginVertical: 10,
-    borderColor: Color.FONT_COLOR,
-    borderWidth: 1,
-    padding: 5,
-    flexDirection: 'row'
-  },
-  bold: {
-    fontWeight: 'bold'
-  }
-});

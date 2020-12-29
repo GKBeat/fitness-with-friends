@@ -1,10 +1,11 @@
 import React, {useEffect, useState, useCallback} from "react";
 import {StyleSheet, Text, SafeAreaView, View, ScrollView, RefreshControl} from 'react-native';
 import {StatusBar} from 'expo-status-bar';
+import {useSelector} from 'react-redux';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-import {Color, LoggedInUserID, fontSizes, iconSizes} from '../../Utils/constants';
+import {themeArray, LoggedInUserID, fontSizes, iconSizes} from '../../Utils/constants';
 import Button from '../../Utils/Button';
 import ProfileModal from './ProfileModal';
 import WorkoutHistory from './WorkoutHistory'
@@ -15,12 +16,13 @@ export default function Profil() {
   const [refreshing, setRefreshing] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
+  const user_ = useSelector(state => state.user);
+  const Color = useState(themeArray[user_.theme])[0];
+
   useEffect(() => {
     getUser();
     getWorkoutHistory();
   }, []);
-
-
 
   const getUser = (refresh) => {
     axios.post('https://fit-in-time-server.herokuapp.com/user/one', {
@@ -70,6 +72,38 @@ export default function Profil() {
     setRefreshing(true);
     getUser(() => setRefreshing(false));
   }, []);
+
+  const styles = StyleSheet.create({
+    header: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    container: {
+      flex: 1,
+      backgroundColor: Color.BACKGROUND_COLOR,
+      paddingTop: 0,
+    },
+    textColor: {
+      color: Color.FONT_COLOR
+    },
+    motivation: {
+      color: Color.FONT_COLOR,
+      paddingTop: 5,
+      fontWeight: 'bold',
+      fontStyle: 'italic',
+      opacity: 0.8
+    },
+    historyContainer: {
+      marginTop: 15,
+    },
+    headerText: {
+      fontSize: fontSizes.small,
+      color: Color.FONT_COLOR,
+      paddingBottom: 5,
+      fontWeight: 'bold'
+    }
+  });
 
   return (
     <SafeAreaView style={{...styles.container, paddingHorizontal: 25, paddingTop: 15}}>
@@ -129,36 +163,3 @@ export default function Profil() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-
-  },
-  container: {
-    flex: 1,
-    backgroundColor: Color.BACKGROUND_COLOR,
-    paddingTop: 0,
-  },
-  textColor: {
-    color: Color.FONT_COLOR
-  },
-  motivation: {
-    color: Color.FONT_COLOR,
-    paddingTop: 5,
-    fontWeight: 'bold',
-    fontStyle: 'italic',
-    opacity: 0.8
-  },
-  historyContainer: {
-    marginTop: 15,
-  },
-  headerText: {
-    fontSize: fontSizes.small,
-    color: Color.FONT_COLOR,
-    paddingBottom: 5,
-    fontWeight: 'bold'
-  }
-});

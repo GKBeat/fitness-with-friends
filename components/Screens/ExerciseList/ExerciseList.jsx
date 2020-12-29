@@ -3,8 +3,9 @@ import {StyleSheet, Text, SafeAreaView, View, ScrollView, RefreshControl} from '
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {StatusBar} from 'expo-status-bar';
+import {useSelector} from 'react-redux';
 
-import {Color, fontSizes, iconSizes} from '../../Utils/constants';
+import {themeArray, fontSizes, iconSizes} from '../../Utils/constants';
 import Button from '../../Utils/Button';
 import ExerciseModal from "../../ExerciseModal";
 
@@ -13,6 +14,9 @@ export default function ExerciseList() {
   const [showModal, setShowModal] = useState(false);
   const [category, setCategory] = useState('');
   const [refreshing, setRefreshing] = useState(false);
+
+  const user = useSelector(state => state.user);
+  const Color = useState(themeArray[user.theme])[0];
 
   useEffect(() => {
     getExerciseList()
@@ -34,6 +38,32 @@ export default function ExerciseList() {
     setRefreshing(true);
     getExerciseList(() => setRefreshing(false));
   }, []);
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: Color.BACKGROUND_COLOR,
+      paddingHorizontal: 25,
+    },
+    headerText: {
+      color: Color.FONT_COLOR,
+      fontSize: fontSizes.large
+    },
+    contentText: {
+      color: Color.FONT_COLOR
+    },
+    header: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginVertical: 10,
+      borderBottomColor: Color.FONT_COLOR,
+      borderBottomWidth: 2
+    },
+    exercise: {
+      marginVertical: 5,
+    }
+  });
 
   return (
     <SafeAreaView style={styles.container}>
@@ -93,28 +123,3 @@ export default function ExerciseList() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Color.BACKGROUND_COLOR,
-    paddingHorizontal: 25,
-  },
-  headerText: {
-    color: Color.FONT_COLOR,
-    fontSize: fontSizes.large
-  },
-  contentText: {
-    color: Color.FONT_COLOR
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginVertical: 10,
-    borderBottomColor: Color.FONT_COLOR,
-    borderBottomWidth: 2
-  },
-  exercise: {
-    marginVertical: 5,
-  }
-});

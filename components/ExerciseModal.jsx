@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import {StyleSheet, Text, View, TextInput, Dimensions} from 'react-native';
 import Modal from 'react-native-modal';
+import {useSelector} from 'react-redux'
 import axios from 'axios';
 
-import {LoggedInUserID, fontSizes, Color} from './Utils/constants';
+import {LoggedInUserID, fontSizes, themeArray} from './Utils/constants';
 import Button from './Utils/Button';
 const {width} = Dimensions.get("window");
 
@@ -12,6 +13,9 @@ export default function ExerciseModal(props) {
   const [exerciseDescription, setExerciseDescription] = useState('');
   const [amountBeginner, setAmountBeginner] = useState('');
   const [amountExpert, setAmountExpert] = useState('');
+
+  const user = useSelector(state => state.user);
+  const Color = useState(themeArray[user.theme])[0];
 
   const closeModal = () => {
     props.setShowModal(false);
@@ -61,6 +65,38 @@ export default function ExerciseModal(props) {
     setAmountBeginner('');
     setAmountExpert('');
   }
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: Color.BACKGROUND_COLOR,
+      paddingHorizontal: 25,
+    },
+    header: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginVertical: 10,
+    },
+    headerText: {
+      fontSize: fontSizes.large,
+    },
+    inputContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    input: { 
+      width: width-90, 
+      height: 40, 
+      borderColor: Color.FONT_COLOR, 
+      borderWidth: 1, 
+      padding: 5,
+      marginBottom: 20
+    },
+    buttonContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    }
+  });
 
   return (
     <Modal
@@ -130,35 +166,3 @@ export default function ExerciseModal(props) {
     </Modal>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Color.BACKGROUND_COLOR,
-    paddingHorizontal: 25,
-  },
-  header: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginVertical: 10,
-  },
-  headerText: {
-    fontSize: fontSizes.large,
-  },
-  inputContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  input: { 
-    width: width-90, 
-    height: 40, 
-    borderColor: Color.FONT_COLOR, 
-    borderWidth: 1, 
-    padding: 5,
-    marginBottom: 20
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  }
-});
