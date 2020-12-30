@@ -62,6 +62,19 @@ export default function Home() {
     }
   }
 
+  const cheer = async (friendId) => {
+    console.log(friendId);
+    let data = await backend.put('workout/cheer/', {
+      user: {
+        _id: LoggedInUserID
+      },
+      friend: {
+        _id: friendId
+      }
+    });
+    console.log(data);
+  } 
+
   const login = async () => {
     let data = await backend.login('login/', {
       user: {
@@ -150,6 +163,13 @@ export default function Home() {
               <View key={friendWorkout._id.toString()}>
                 <Text>Name: {friendWorkout.username}</Text>
                 <Text>Fortschritt: {friendWorkout.progress}/{friendWorkout.exercises.length}</Text>
+                <Button
+                  marginY={10}
+                  height={25}
+                  width={25}
+                  color={Color.TAB_BAR_BACKGROUND_COLOR}
+                  onPress={() => { cheer(friendWorkout.userId) }}
+                  text={ <Icon name='bullhorn' size={iconSizes.mini} color={Color.TAB_BAR_INACTIVE_COLOR}/>}/>
               </View>
             )
           })
