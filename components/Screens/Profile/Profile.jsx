@@ -1,11 +1,10 @@
 import React, {useEffect, useState, useCallback} from "react";
 import {StyleSheet, Text, SafeAreaView, View, ScrollView, RefreshControl} from 'react-native';
-import {StatusBar} from 'expo-status-bar';
 import {useSelector} from 'react-redux';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-import {themeArray, LoggedInUserID, fontSizes, iconSizes} from '../../Utils/constants';
+import {themeArray, fontSizes, iconSizes} from '../../Utils/constants';
 import Button from '../../Utils/Button';
 import ProfileModal from './ProfileModal';
 import WorkoutHistory from './WorkoutHistory'
@@ -27,7 +26,7 @@ export default function Profil() {
   const getUser = (refresh) => {
     axios.post('https://fit-in-time-server.herokuapp.com/user/one', {
       query: {
-        _id: LoggedInUserID
+        _id: user_._id 
       }
     }).then(response => {
       if (response.data.status) {
@@ -41,7 +40,7 @@ export default function Profil() {
   const getWorkoutHistory = () => {
     axios.post('https://fit-in-time-server.herokuapp.com/workout/history', {
       user: {
-        _id: LoggedInUserID
+        _id: user_._id
       }
     }).then(response => {
       if (response.data.status) {
@@ -107,7 +106,6 @@ export default function Profil() {
 
   return (
     <SafeAreaView style={{...styles.container, paddingHorizontal: 25, paddingTop: 15}}>
-      <StatusBar hidden={true}/>
       <ScrollView
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />

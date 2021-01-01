@@ -2,10 +2,9 @@ import React, {useState} from "react";
 import {StyleSheet, Text, SafeAreaView, Dimensions, View, TextInput, FlatList} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {useSelector} from 'react-redux';
-import {StatusBar} from 'expo-status-bar';
 import axios from 'axios';
 
-import {themeArray, LoggedInUserID, iconSizes} from '../../Utils/constants';
+import {themeArray, iconSizes} from '../../Utils/constants';
 import Button from '../../Utils/Button';
 const {width} = Dimensions.get("window");
 
@@ -22,9 +21,7 @@ export default function Search() {
       query: {
         username: search
       },
-      user: {
-        _id: LoggedInUserID
-      }
+      user
     }).then( response => {
       if(response.data.status){
         setUsers([...response.data.users]);
@@ -36,9 +33,7 @@ export default function Search() {
 
   const addFriend = (friend) => {
     axios.put('https://fit-in-time-server.herokuapp.com/user/add', {
-        user: {
-          _id: LoggedInUserID
-        },
+        user,
         friend: {
           _id: friend._id
         }
@@ -87,7 +82,6 @@ export default function Search() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar hidden={true} />
       <View style={styles.search}>
         <TextInput
           style={styles.input}

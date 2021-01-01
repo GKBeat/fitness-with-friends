@@ -4,7 +4,7 @@ import Modal from 'react-native-modal';
 import {useSelector} from 'react-redux'
 import axios from 'axios';
 
-import {LoggedInUserID, fontSizes, themeArray} from './Utils/constants';
+import {fontSizes, themeArray} from './Utils/constants';
 import Button from './Utils/Button';
 const {width} = Dimensions.get("window");
 
@@ -26,10 +26,7 @@ export default function ExerciseModal(props) {
     axios.post(
       'https://fit-in-time-server.herokuapp.com/exercise/create/',
       {
-        user: {
-          _id: LoggedInUserID,
-          isAdmin: true
-        },
+        user,
         exercise: {
           exercise: exerciseName,
           description: exerciseDescription,
