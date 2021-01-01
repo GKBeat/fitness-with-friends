@@ -10,10 +10,17 @@ export default function Signup ({navigation}) {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [level, setLevel] = useState('');
+  const [level, setLevel] = useState('0');
   const [amount, setAmount] = useState('5');
+  const [error, setError] = useState('');
 
   const signup = async () => {
+    if (username.length < 2 || username.length > 64 || password.length < 5 || password.length > 255) {
+      setError('Username mind. 2 max 64 \nPasswort mind 5 max 255 ');
+      setTimeout(() => {
+        setError('');
+      }, 2000)
+    }
     let data = await backend.post('signup/', {
       user: {
         username,
@@ -59,7 +66,7 @@ export default function Signup ({navigation}) {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>
-          Login
+          Sign Up
         </Text>
       </View>
       <View>
@@ -117,6 +124,12 @@ export default function Signup ({navigation}) {
           text={'create'}
           onPress={signup}
         />
+
+        <View>
+          <Text>
+            {error}
+          </Text>
+        </View>
 
       </View>
     </SafeAreaView>
