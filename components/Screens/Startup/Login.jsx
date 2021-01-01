@@ -1,10 +1,13 @@
 import {Text, View, SafeAreaView, TextInput, StyleSheet, Dimensions} from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {fontSizes, Color} from '../../Utils/constants';
 import Button from '../../Utils/Button';
 import backend from '../../Utils/backend';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {log_in} from '../../../redux/actions/actions';
+import AsyncStorage from '@react-native-community/async-storage';
+
+
 const {width} = Dimensions.get("window");
 
 export default function Login ({navigation}) {
@@ -12,7 +15,30 @@ export default function Login ({navigation}) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  const user = useSelector(state => state.user);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    let _checkStore =  async () => {
+      const token = await AsyncStorage.getItem('token');
+      const userId = await AsyncStorage.getItem('userId');
+      if (userId && token) {
+        backend.setAuthHeader(token);
+        let userData = await backend.post('user/one/', {
+          query: {
+            _id: userId
+          }
+        });
+        dispatch(log_in(userData));
+        navigation.navigate('Home');
+      }
+    }
+  _checkStore();
+  }, []);
+
+  useEffect(() => {
+    if (!user.isLogged) navigation.navigate('Login');
+  }, [user])
 
   const login = async () => {
     let data = await backend.login('login/', {
@@ -26,6 +52,9 @@ export default function Login ({navigation}) {
       dispatch(log_in(data.user));
       navigation.navigate('Home');
     }
+    setUsername('');
+    setPassword('');
+    
   }
 
   const signup = () => {

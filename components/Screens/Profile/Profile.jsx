@@ -1,8 +1,10 @@
 import React, {useEffect, useState, useCallback} from "react";
 import {StyleSheet, Text, SafeAreaView, View, ScrollView, RefreshControl} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import {log_out} from '../../../redux/actions/actions';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import {themeArray, fontSizes, iconSizes} from '../../Utils/constants';
 import Button from '../../Utils/Button';
@@ -14,6 +16,8 @@ export default function Profil() {
   const [workoutHistory, setWorkoutHistory] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  
+  const dispatch = useDispatch();
 
   const user_ = useSelector(state => state.user);
   const Color = useState(themeArray[user_.theme])[0];
@@ -49,6 +53,13 @@ export default function Profil() {
     }).catch(err => {
       console.log(err);
     });
+  }
+
+  const logout = () => {
+    console.log('logging out');
+    dispatch(log_out());
+    AsyncStorage.setItem('userId', '');
+    AsyncStorage.setItem('token', '');
   }
 
   const motivationText = (current, highest) => {
@@ -134,6 +145,9 @@ export default function Profil() {
               isRound={true}
             />
           </View>
+
+          <Button text={'LOGOUT'} onPress={logout} />
+
           <View>
             <Text style={styles.textColor}>Trainingslevel: {user.level}</Text>
             <Text style={styles.textColor}>Anzahl der Übungen: {user.amount}</Text>
