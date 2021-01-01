@@ -26,7 +26,6 @@ export default function Login ({navigation}) {
       dispatch(log_in(data.user));
       navigation.navigate('Home');
     }
-    
   }
 
   const signup = () => {
@@ -37,6 +36,7 @@ export default function Login ({navigation}) {
     container: {
       flex: 1,
       backgroundColor: Color.BACKGROUND_COLOR,
+      justifyContent: 'center',
       paddingHorizontal: 25,
       paddingTop: 25  
     },
@@ -49,14 +49,14 @@ export default function Login ({navigation}) {
       fontSize: fontSizes.large,
     },
     input: { 
-      width: width-90, 
+      width: width-50, 
       height: 40, 
       borderColor: Color.FONT_COLOR, 
       borderWidth: 1, 
-      padding: 5 
+      padding: 5,
+      marginTop: 15
     }
   })
-
 
   return (
     <SafeAreaView style={styles.container}>
@@ -79,21 +79,26 @@ export default function Login ({navigation}) {
           secureTextEntry={true}
           onChangeText={text => setPassword(text)}
         />
+
+      </View>
+      <View
+        style={{flexDirection: 'row', justifyContent: 'space-around', marginTop: 30}}
+      >
         <Button
           marginY={1}
           height={40}
           width={80}
-          color={Color.COLOR}
+          color={Color.TAB_BAR_BACKGROUND_COLOR}
+          textColor={Color.BACKGROUND_COLOR}
           onPress={login}
           text={'login'}
         />
-      </View>
-      <View>
         <Button
           marginY={2}
-          height={30}
+          height={40}
           width={80}
-          color={Color.COLOR}
+          color={Color.TAB_BAR_BACKGROUND_COLOR}
+          textColor={Color.BACKGROUND_COLOR}
           onPress={signup}
           text={'signup'}
         />
