@@ -9,7 +9,8 @@ const initialState = {
   theme: 0,
   machines: [],
   currentStreak: 0,
-  highestStreak: 0
+  highestStreak: 0,
+  isLogged: false
 }
 
 const user = (state=initialState, action) => {
@@ -26,7 +27,8 @@ const user = (state=initialState, action) => {
         theme,
         machines,
         currentStreak,
-        highestStreak
+        highestStreak,
+        isLogged: true
       }
     }
     case LOG_OUT: {

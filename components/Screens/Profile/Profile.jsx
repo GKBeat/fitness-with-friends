@@ -1,11 +1,12 @@
 import React, {useEffect, useState, useCallback} from "react";
 import {StyleSheet, Text, SafeAreaView, View, ScrollView, RefreshControl} from 'react-native';
-import {StatusBar} from 'expo-status-bar';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import {log_out} from '../../../redux/actions/actions';
+import AsyncStorage from '@react-native-community/async-storage';
 
-import {themeArray, LoggedInUserID, fontSizes, iconSizes} from '../../Utils/constants';
+import {themeArray, fontSizes, iconSizes} from '../../Utils/constants';
 import Button from '../../Utils/Button';
 import ProfileModal from './ProfileModal';
 import WorkoutHistory from './WorkoutHistory'
@@ -15,6 +16,8 @@ export default function Profil() {
   const [workoutHistory, setWorkoutHistory] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  
+  const dispatch = useDispatch();
 
   const user_ = useSelector(state => state.user);
   const Color = useState(themeArray[user_.theme])[0];
@@ -27,7 +30,7 @@ export default function Profil() {
   const getUser = (refresh) => {
     axios.post('https://fit-in-time-server.herokuapp.com/user/one', {
       query: {
-        _id: LoggedInUserID
+        _id: user_._id 
       }
     }).then(response => {
       if (response.data.status) {
@@ -41,7 +44,7 @@ export default function Profil() {
   const getWorkoutHistory = () => {
     axios.post('https://fit-in-time-server.herokuapp.com/workout/history', {
       user: {
-        _id: LoggedInUserID
+        _id: user_._id
       }
     }).then(response => {
       if (response.data.status) {
@@ -50,6 +53,13 @@ export default function Profil() {
     }).catch(err => {
       console.log(err);
     });
+  }
+
+  const logout = () => {
+    console.log('logging out');
+    dispatch(log_out());
+    AsyncStorage.setItem('userId', '');
+    AsyncStorage.setItem('token', '');
   }
 
   const motivationText = (current, highest) => {
@@ -107,7 +117,6 @@ export default function Profil() {
 
   return (
     <SafeAreaView style={{...styles.container, paddingHorizontal: 25, paddingTop: 15}}>
-      <StatusBar hidden={true}/>
       <ScrollView
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -136,6 +145,9 @@ export default function Profil() {
               isRound={true}
             />
           </View>
+
+          <Button text={'LOGOUT'} onPress={logout} />
+
           <View>
             <Text style={styles.textColor}>Trainingslevel: {user.level}</Text>
             <Text style={styles.textColor}>Anzahl der Übungen: {user.amount}</Text>

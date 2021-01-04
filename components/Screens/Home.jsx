@@ -2,15 +2,13 @@ import React, {useEffect, useState, useCallback} from "react";
 import {StyleSheet, Text, SafeAreaView, View, ScrollView, RefreshControl, TouchableOpacity} from 'react-native';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {StatusBar} from 'expo-status-bar';
 
-import {LoggedInUserID, fontSizes, iconSizes, themeArray} from '../Utils/constants';
+import {fontSizes, iconSizes, themeArray} from '../Utils/constants';
 import Exercise from '../Exercise';
 import Button from '../Utils/Button';
 
 import backend from '../Utils/backend';
-import {useDispatch, useSelector} from 'react-redux';
-import {log_in} from '../../redux/actions/actions';
+import {useSelector} from 'react-redux';
 
 export default function Home() {
   const [latestWorkout, setLatestWorkout] = useState(false);
@@ -22,22 +20,16 @@ export default function Home() {
   const user = useSelector(state => state.user);
   const Color = useState(themeArray[user.theme])[0];
 
-  const dispatch = useDispatch();
-
   useEffect(() => {
     getAllWorkouts();
   }, []);
 
   const getAllWorkouts = (refresh) => {
     const requestOne = axios.post('https://fit-in-time-server.herokuapp.com/workout/', {
-      user: {
-        _id: LoggedInUserID
-      }
+      user
     })
     const requestTwo = axios.post('https://fit-in-time-server.herokuapp.com/user/friendsprogress/', {
-      user: {
-        _id: LoggedInUserID
-      }
+      user
     })
     axios.all([requestOne, requestTwo]).then(axios.spread((...responses) => {
       const responseOne = responses[0];
@@ -65,27 +57,13 @@ export default function Home() {
   const cheer = async (friendId) => {
     console.log(friendId);
     let data = await backend.put('workout/cheer/', {
-      user: {
-        _id: LoggedInUserID
-      },
+      user,
       friend: {
         _id: friendId
       }
     });
     console.log(data);
   } 
-
-  const login = async () => {
-    let data = await backend.login('login/', {
-      user: {
-        username: 'DankMeme',
-        password: 'Test1234'
-      }
-    });
-    
-    dispatch(log_in(data.user));
-    
-  }
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -111,15 +89,11 @@ export default function Home() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar hidden={true} />
       <ScrollView
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        <Button onPress={login}
-          text={'LOGIN' + user.username}
-         />
       <View>
         <TouchableOpacity
           onPress={() => setShowWorkout(!showWorkout)}

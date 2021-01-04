@@ -2,7 +2,6 @@ import React, {useEffect, useState, useCallback} from "react";
 import {StyleSheet, Text, SafeAreaView, View, ScrollView, RefreshControl} from 'react-native';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {StatusBar} from 'expo-status-bar';
 import {useSelector} from 'react-redux';
 
 import {themeArray, fontSizes, iconSizes} from '../../Utils/constants';
@@ -67,7 +66,6 @@ export default function ExerciseList() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar hidden={true} />
       <ScrollView
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />

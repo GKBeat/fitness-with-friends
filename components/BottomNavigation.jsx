@@ -14,7 +14,6 @@ const Tab = createMaterialBottomTabNavigator();
 export default function BottomNavigation(){
   const user = useSelector(state => state.user);
   const Color = useState(themeArray[user.theme])[0];
-
   return (
     <Tab.Navigator
       initialRouteName="Home"

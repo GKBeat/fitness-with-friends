@@ -5,7 +5,7 @@ import {useSelector} from 'react-redux';
 import axios from 'axios';
 import {Picker} from '@react-native-picker/picker';
 
-import {themeArray, LoggedInUserID, fontSizes} from '../../Utils/constants';
+import {themeArray, fontSizes} from '../../Utils/constants';
 import Button from '../../Utils/Button';
 
 export default function ProfileModal(props){
@@ -32,9 +32,7 @@ export default function ProfileModal(props){
     axios.put(
       'https://fit-in-time-server.herokuapp.com/user/update/',
       {
-        user: {
-          _id: LoggedInUserID
-        },
+        user,
         update
       }
     )

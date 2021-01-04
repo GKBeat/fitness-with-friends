@@ -1,17 +1,26 @@
 import axios from 'axios';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const BASE_URL = process.env.BASE_URL ? process.env.BASE_URL : 'https://fit-in-time-server.herokuapp.com/';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
+const setAuthHeader = (token) => {
+  axios.defaults.headers.common['Authorization'] = token;
+}
 
 const login = async (path, data) => {
+  console.log(BASE_URL + path);
   let response = await axios.post(BASE_URL + path, data);
-  axios.defaults.headers.common['Authorization'] = response.headers.authorization;
+  setAuthHeader(response.headers.authorization);
+  if (response.data.status) {
+    AsyncStorage.setItem('token', response.headers.authorization);
+    AsyncStorage.setItem('userId', response.data.user._id);
+  }
   return response.data;
 }
 
 const post = async (path, data) => {
-  let response = axios.post(BASE_URL + path, data);
+  let response = await axios.post(BASE_URL + path, data);
   return response.data;
 }
 
@@ -42,5 +51,6 @@ export default module.exports = {
   login,
   post,
   get,
-  put
+  put,
+  setAuthHeader
 }

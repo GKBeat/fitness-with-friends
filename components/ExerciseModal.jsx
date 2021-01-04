@@ -4,16 +4,18 @@ import Modal from 'react-native-modal';
 import {useSelector} from 'react-redux'
 import axios from 'axios';
 
-import {LoggedInUserID, fontSizes, themeArray} from './Utils/constants';
+import {fontSizes, themeArray} from './Utils/constants';
 import Button from './Utils/Button';
 const {width} = Dimensions.get("window");
 
 export default function ExerciseModal(props) {
   const [exerciseName, setExerciseName] = useState('');
   const [exerciseDescription, setExerciseDescription] = useState('');
-  const [amountBeginner, setAmountBeginner] = useState('');
-  const [amountExpert, setAmountExpert] = useState('');
-
+  const [amountLevel0, setAmountLevel0] = useState('');
+  const [amountLevel1, setAmountLevel1] = useState('');
+  const [amountLevel2, setAmountLevel2] = useState('');
+  const [amountLevel3, setAmountLevel3] = useState('');
+  
   const user = useSelector(state => state.user);
   const Color = useState(themeArray[user.theme])[0];
 
@@ -26,20 +28,23 @@ export default function ExerciseModal(props) {
     axios.post(
       'https://fit-in-time-server.herokuapp.com/exercise/create/',
       {
-        user: {
-          _id: LoggedInUserID,
-          isAdmin: true
-        },
+        user,
         exercise: {
           exercise: exerciseName,
           description: exerciseDescription,
           category: props.category,
           amount:[
             {
-              Beginner: amountBeginner,
+              Level0: amountLevel0,
             },
             {
-              Expert: amountExpert,
+              Level1: amountLevel1,
+            },
+            {
+              Level2: amountLevel2,
+            },
+            {
+              Level3: amountLevel3,
             },
           ]
         }
@@ -62,8 +67,10 @@ export default function ExerciseModal(props) {
   const clearInput = () => {
     setExerciseName('');
     setExerciseDescription('');
-    setAmountBeginner('');
-    setAmountExpert('');
+    setAmountLevel0('');
+    setAmountLevel1('');
+    setAmountLevel2('');
+    setAmountLevel3('');
   }
 
   const styles = StyleSheet.create({
@@ -100,7 +107,7 @@ export default function ExerciseModal(props) {
 
   return (
     <Modal
-      style={{marginVertical: 175}}
+      style={{marginVertical: 100}}
       isVisible={props.showModal}
       onBackdropPress={closeModal}
       onSwipeComplete={closeModal}
@@ -126,15 +133,27 @@ export default function ExerciseModal(props) {
           />
           <TextInput
             style={styles.input}
-            onChangeText={text => setAmountBeginner(text)}
-            value={amountBeginner.toString()}
+            onChangeText={text => setAmountLevel0(text)}
+            value={amountLevel0.toString()}
             placeholder={'Anzahl der Wiederholungen Level 0'}
           />
           <TextInput
             style={styles.input}
-            onChangeText={text => setAmountExpert(text)}
-            value={amountExpert.toString()}
+            onChangeText={text => setAmountLevel1(text)}
+            value={amountLevel1.toString()}
             placeholder={'Anzahl der Wiederholungen Level 1'}
+          />
+          <TextInput
+            style={styles.input}
+            onChangeText={text => setAmountLevel2(text)}
+            value={amountLevel2.toString()}
+            placeholder={'Anzahl der Wiederholungen Level 2'}
+          />
+          <TextInput
+            style={styles.input}
+            onChangeText={text => setAmountLevel3(text)}
+            value={amountLevel3.toString()}
+            placeholder={'Anzahl der Wiederholungen Level 3'}
           />
         </View>
         <View style={styles.buttonContainer}>

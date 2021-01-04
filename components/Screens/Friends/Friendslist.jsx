@@ -5,7 +5,7 @@ import {useSelector} from 'react-redux';
 import {StatusBar} from 'expo-status-bar';
 import axios from 'axios';
 
-import {themeArray, LoggedInUserID, iconSizes} from '../../Utils/constants';
+import {themeArray, iconSizes} from '../../Utils/constants';
 import Button from '../../Utils/Button';
 
 export default function Friendslist() {
@@ -21,9 +21,7 @@ export default function Friendslist() {
 
   const getFriends = (refresh) => {
     axios.post('https://fit-in-time-server.herokuapp.com/user/friends', {
-      user: {
-        _id: LoggedInUserID
-      }
+      user
     }).then( response => {
       if(response.data.status){
         setFriends(response.data.friends);
@@ -35,9 +33,7 @@ export default function Friendslist() {
 
   const addFriend = (friend) => {
     axios.put('https://fit-in-time-server.herokuapp.com/user/add', {
-        user: {
-          _id: LoggedInUserID
-        },
+        user,
         friend: {
           _id: friend._id
         }
