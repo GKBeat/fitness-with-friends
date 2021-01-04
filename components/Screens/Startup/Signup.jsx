@@ -16,22 +16,24 @@ export default function Signup ({navigation}) {
 
   const signup = async () => {
     if (username.length < 2 || username.length > 64 || password.length < 5 || password.length > 255) {
-      setError('Username mind. 2 max 64 \nPasswort mind 5 max 255 ');
+      setError('username mind. 2 max 64 \npassword mind. 5 max 255 ');
       setTimeout(() => {
         setError('');
       }, 2000)
-    }
-    let data = await backend.post('signup/', {
-      user: {
-        username,
-        password,
-        level,
-        amount
+    } else {
+      let data = await backend.post('signup/', {
+        user: {
+          username,
+          password,
+          level,
+          amount
+        }
+      });
+      if (data.status) {
+        navigation.navigate('Login');
       }
-    });
-    if (data.status) {
-      navigation.navigate('Login');
     }
+    
   }
 
   const styles = StyleSheet.create({
@@ -39,7 +41,9 @@ export default function Signup ({navigation}) {
       flex: 1,
       backgroundColor: Color.BACKGROUND_COLOR,
       paddingHorizontal: 25,
-      paddingTop: 25  
+      paddingTop: 25,
+      justifyContent: 'center',
+      display: 'flex' 
     },
     header: {
       justifyContent: 'center',
@@ -50,14 +54,23 @@ export default function Signup ({navigation}) {
       fontSize: fontSizes.large,
     },
     input: { 
-      width: width-90, 
+      width: width-50, 
       height: 40, 
       borderColor: Color.FONT_COLOR, 
       borderWidth: 1, 
-      padding: 5 
+      padding: 5,
+      marginTop: 30
+    },
+    picker: {
+      width: width-90,
+      height: 40,
+      borderColor: Color.FONT_COLOR,
+      borderWidth: 1,
+      padding: 5,
     },
     contentText: {
-      color: Color.FONT_COLOR
+      color: Color.FONT_COLOR,
+      marginTop: 20
     },
   })
 
@@ -87,7 +100,7 @@ export default function Signup ({navigation}) {
         <Text style={styles.contentText}> Level: </Text>
         <Picker
           selectedValue={level}
-          style={styles.input}
+          style={styles.picker}
           onValueChange={text => setLevel(text)}
         >
           {/*TODO: make this variable from backendInfo*/}
@@ -100,7 +113,7 @@ export default function Signup ({navigation}) {
         <Text style={styles.contentText}> Anzahl der Übungen: </Text>
         <Picker
           selectedValue={amount}
-          style={styles.input}
+          style={styles.picker}
           onValueChange={text => setAmount(text)}
         >
           {/*TODO: make this variable from backendInfo*/}
@@ -115,15 +128,19 @@ export default function Signup ({navigation}) {
           <Picker.Item label="9" value="9" />
           <Picker.Item label="10" value="10" />
         </Picker>
-
-        <Button
-          marginY={1}
-          height={40}
-          width={80}
-          color={Color.TAB_BAR_BACKGROUND_COLOR}
-          text={'create'}
-          onPress={signup}
-        />
+        <View
+          style={{flexDirection: 'row', justifyContent: 'center', marginTop: 10}}
+        >
+          <Button
+            marginY={1}
+            height={40}
+            width={80}
+            color={Color.TAB_BAR_BACKGROUND_COLOR}
+            textColor={Color.BACKGROUND_COLOR}
+            text={'create'}
+            onPress={signup}
+          />
+        </View>
 
         <View>
           <Text>
