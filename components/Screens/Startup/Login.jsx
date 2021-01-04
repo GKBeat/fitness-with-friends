@@ -29,7 +29,7 @@ export default function Login ({navigation}) {
             _id: userId
           }
         });
-        dispatch(log_in(userData));
+        dispatch(log_in(userData.user));
         navigation.navigate('Home');
       }
     }
