@@ -132,7 +132,7 @@ export default function Profil() {
             amount={user.amount}
           />
           <View style={styles.header}>
-            <Text style={styles.headerText}>{user.username}</Text>
+ 
             <Button
               marginY={10}
               height={35}
@@ -144,9 +144,20 @@ export default function Profil() {
               text={<Icon name='user-edit' size={iconSizes.mini} color={Color.TAB_BAR_INACTIVE_COLOR}/>}
               isRound={true}
             />
+ 
+
+            <Button
+              marginY={10}
+              height={35}
+              width={35}
+              color={Color.TAB_BAR_BACKGROUND_COLOR}
+              text={<Icon name='sign-out-alt' size={iconSizes.mini} color={Color.TAB_BAR_INACTIVE_COLOR}/>}
+              onPress={logout}
+              isRound={true}
+            />
           </View>
 
-          <Button text={'LOGOUT'} onPress={logout} />
+          <Text style={styles.headerText}>{user.username}</Text>
 
           <View>
             <Text style={styles.textColor}>Trainingslevel: {user.level}</Text>

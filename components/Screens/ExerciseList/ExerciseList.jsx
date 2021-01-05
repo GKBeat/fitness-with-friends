@@ -105,8 +105,13 @@ export default function ExerciseList() {
                       <View style={styles.exercise} key={exercise._id}>
                         <Text style={styles.contentText}>Name: {exercise.exercise}</Text>
                         {exercise.description && <Text style={styles.contentText}>Beschreibung: {exercise.description}</Text>}
-                        <Text style={styles.contentText}>Level 1: {exercise.amount[0].Beginner}</Text>
-                        <Text style={styles.contentText}>Level 2: {exercise.amount[1].Expert}</Text>
+                        {
+                          exercise.amount.map((data, index) => {
+                            return (
+                              <Text key={index} style={styles.contentText}> {data.name}: {data.level} </Text>
+                            )
+                          })
+                        }
                       </View>
                     )
                   })

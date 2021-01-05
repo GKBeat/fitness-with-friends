@@ -35,16 +35,20 @@ export default function ExerciseModal(props) {
           category: props.category,
           amount:[
             {
-              Level0: amountLevel0,
+              name: 'Level 0',
+              level: amountLevel0,
             },
             {
-              Level1: amountLevel1,
+              name: 'Level 1',
+              level: amountLevel1,
             },
             {
-              Level2: amountLevel2,
+              name: 'Level 2',
+              level: amountLevel2,
             },
             {
-              Level3: amountLevel3,
+              name: 'Level 3',
+              level: amountLevel3,
             },
           ]
         }
