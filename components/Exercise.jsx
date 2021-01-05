@@ -58,6 +58,7 @@ export default function Exercise(props) {
       >
         <View>
           <Text>exercise: {exercise.exercise}</Text>
+          <Text>Wiederholungen: {exercise.amount[user.level].level} </Text>
           <Text>category: {exercise.category}</Text>
         </View>
         <Button
